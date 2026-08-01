@@ -22,7 +22,7 @@ There is no test suite/script in this repo (no `test` entry in package.json, no 
 
 ### Routing (`src/App.jsx`)
 
-Single `BrowserRouter` with routes for: `/` (Landing), `/category/:categoryId` (ItemListContainer), `shop/:shopId/:productName` (ItemDetailContainer), `/search/:productName` (Search), `/store` (Products grid), `/cart`, `/checkout`, and a catch-all 404. `NavBar` and `Footer` are rendered outside `<Routes>` so they persist across all pages.
+Single `BrowserRouter` with routes for: `/` (Landing), `/category/:categoryId` (ItemListContainer), `shop/:shopId/:productName` (ItemDetailContainer), `/search/:productName` (Search), `/store` (Products grid), `/support` (Support/FAQ), `/cart`, `/checkout`, and a catch-all 404. `NavBar` and `Footer` are rendered as siblings of `<Routes>` so they persist across all pages — **both must stay inside `<BrowserRouter>`**, not outside it: `Footer` uses `<Link>` internally, and any component that calls a react-router hook or renders `<Link>` throws (`Cannot destructure property 'basename' of 'React2.useContext(...)' as it is null`) if mounted outside the router's React tree.
 
 ### Data flow: static local catalog
 
@@ -49,6 +49,23 @@ Single `BrowserRouter` with routes for: `/` (Landing), `/category/:categoryId` (
 
 - `ItemDetailContainer` renders a "You might also like" section (`.product-related`) below the highlights: up to 3 other products from the same category (`products.filter(...).slice(0, 3)`), rendered as `ProductCard`s with `info={false}`. Purely derived from the existing catalog, no separate "related products" data.
 - `ItemListContainer` shows a one-line marketing blurb per category from `categoryDescription` (`src/data/products.js`) under the H1.
+
+### Landing page sections (`src/pages/Landing.jsx`)
+
+`Landing` composes a full homepage from `src/components/Section/*`, in this order: `Hero`, `AppleHero`, `TrustBadges`, `ShopByCategory`, `Products` (a preview grid of the catalog), `Testimonials`, `Newsletter`. All of these are static/presentational — no new data source beyond what already exists in `src/data/products.js`:
+
+- `ShopByCategory` — 5 gradient tiles (Mac/iPad/iPhone/Watch/Accessories) linking to `/category/<slug>`, pulling the blurb from `categoryDescription`. Note `categoryDescription`'s key casing (`Mac`, `iPad`, `iPhone`, `Watch`, lowercase `accessories`) doesn't match a uniform display-name casing, so the component looks up by an explicit `key` field on each tile rather than assuming `name` matches.
+- `TrustBadges` — a 4-item icon/text row (delivery, returns, trade-in, support) in a `border-y` band; purely decorative/marketing, no links.
+- `Testimonials` — 3 static, fictional review cards (no real customer data, no backend).
+- `Newsletter` — an email input + "Subscribe" button with local `useState`; submitting only flips to a "Thanks for subscribing!" message, there's no real signup/email service wired up.
+
+### Support page (`src/pages/Support.jsx`)
+
+A static FAQ/contact page at `/support`: 3 contact method cards (Chat/Call/Email — `href="#"`, `tel:`, `mailto:` respectively, none backed by a real service) plus an accordion of 6 Q&A pairs built from a local `faqs` array, using a local `FaqItem` component with its own `useState(false)` open/closed flag per item (no shared accordion state, no URL/hash sync).
+
+### Footer (`src/components/Footer/Footer.jsx`)
+
+A 4-column Apple-style footer (Shop / Account / iStore Support / About iStore) plus a bottom legal bar, driven by a local `columns` array of `{ label, to }` links — all real in-app routes (`/category/...`, `/cart`, `/checkout`, `/support`) except the legal links (Privacy Policy/Terms of Use), which are `href="#"` placeholders like the rest of the app's non-functional legal links. Because it renders `<Link>`, it must stay mounted inside `<BrowserRouter>` (see Routing above).
 
 ### Cart state: Context + localStorage dual-write
 

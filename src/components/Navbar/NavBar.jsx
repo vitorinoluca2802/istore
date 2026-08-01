@@ -46,8 +46,8 @@ export const NavBar = () => {
                   <li key={link.id}>
                     <Link
                       to={
-                        link.url == "store" || link.url == "support"
-                          ? link.url
+                        link.url == "support"
+                          ? "/support"
                           : `/category/${link.url}`
                       }
                       onClick={handleToggleNavbar}
