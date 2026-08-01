@@ -47,7 +47,7 @@ export const ShopByCategory = () => {
                       event.currentTarget.onerror = null;
                       event.currentTarget.src = categoryFallbackImage[product.category];
                     }}
-                    className="max-h-[120px] max-w-[140px] object-contain transition-transform duration-300 group-hover:scale-105"
+                    className="max-h-[120px] max-w-[140px] object-contain drop-shadow-[0_18px_14px_rgba(0,0,0,0.15)] transition-transform duration-300 group-hover:scale-105"
                   />
                 ) : (
                   <div className="h-[120px]" />

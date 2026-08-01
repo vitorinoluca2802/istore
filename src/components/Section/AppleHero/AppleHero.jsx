@@ -70,7 +70,7 @@ const PromoCard = ({ promo }) => {
           event.currentTarget.onerror = null;
           event.currentTarget.src = categoryFallbackImage[product.category];
         }}
-        className={`relative z-[1] mx-auto object-contain transition-transform duration-500 ease-out group-hover:scale-105 ${
+        className={`relative z-[1] mx-auto object-contain drop-shadow-[0_25px_25px_rgba(0,0,0,0.45)] transition-transform duration-500 ease-out group-hover:scale-105 ${
           size === "large" ? "max-h-[260px]" : "max-h-[180px]"
         }`}
       />

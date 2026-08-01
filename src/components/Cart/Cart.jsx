@@ -58,7 +58,7 @@ export const Cart = () => {
                 className="flex items-center justify-between gap-6 p-8 max-md:flex-col max-md:gap-4"
               >
                 <img
-                  className="w-[100px] max-md:mx-auto"
+                  className="w-[100px] max-md:mx-auto drop-shadow-[0_12px_10px_rgba(0,0,0,0.15)]"
                   src={product.image}
                   alt=""
                   onError={(event) => {

@@ -24,11 +24,11 @@ export const ProductCard = ({ product, info }) => {
     <div className="group mx-auto flex w-full max-w-[340px] flex-col rounded-3xl border border-divider bg-white p-6 text-center transition-all duration-300 hover:-translate-y-1 hover:border-transparent hover:shadow-card-hover">
       <div className="flex flex-1 flex-col justify-end">
         <div
-          className="relative mx-auto inline-block overflow-hidden rounded-[20px] p-[22px] before:absolute before:inset-0 before:z-0 before:rounded-full before:opacity-[0.55] before:transition-[background] before:duration-[250ms] before:content-[''] before:[background:radial-gradient(circle,var(--color-tint,transparent)_0%,transparent_70%)]"
+          className="relative mx-auto inline-block p-[22px] before:absolute before:inset-0 before:z-0 before:rounded-full before:opacity-[0.55] before:blur-2xl before:transition-[background] before:duration-[250ms] before:content-[''] before:[background:radial-gradient(circle,var(--color-tint,transparent)_0%,transparent_70%)]"
           style={{ "--color-tint": selectedHex }}
         >
           <img
-            className="relative z-[1] mx-auto block max-h-[220px] max-w-[220px] transition-transform duration-300 group-hover:scale-105"
+            className="relative z-[1] mx-auto block max-h-[220px] max-w-[220px] drop-shadow-[0_25px_20px_rgba(0,0,0,0.18)] transition-transform duration-300 group-hover:scale-105"
             src={imageSrc}
             alt={product.title}
             onError={(event) => {

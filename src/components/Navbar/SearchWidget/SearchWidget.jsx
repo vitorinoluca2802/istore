@@ -4,6 +4,7 @@ import arrow from "../../../assets/arrow-right.svg";
 import x from "../../../assets/x.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { useProducts } from "../../Hooks/useProducts";
+import { Button } from "../../Button/Button";
 
 export const SearchWidget = () => {
   const [openSearch, setOpenSearch] = useState(false);
@@ -55,43 +56,45 @@ export const SearchWidget = () => {
       )}
       <button
         onClick={handleSearch}
-        className="flex cursor-pointer items-center justify-center border-none bg-none"
+        className="flex cursor-pointer items-center justify-center border-none bg-none transition-opacity duration-200 hover:opacity-70"
       >
         <img src={search} alt="" />
       </button>
       <div
         className={
-          "fixed left-0 top-0 z-[-1] h-[40svh] w-full bg-[#111] transition-transform duration-500 max-md:h-[100svh] " +
+          "fixed left-0 top-0 z-[-1] h-[40svh] w-full bg-[#111]/95 backdrop-blur-xl transition-transform duration-500 max-md:h-[100svh] " +
           (openSearch ? "" : "-translate-y-full")
         }
       >
         <div className="relative top-16 mx-auto flex w-[580px] flex-col max-md:top-0 max-md:h-auto max-md:w-full max-md:px-8 max-md:py-16">
           <form
             onSubmit={handleFormSubmit}
-            className="flex items-center justify-between"
+            className="flex items-center gap-3 max-md:flex-col max-md:items-stretch"
           >
-            <div>
-              <button className="cursor-pointer border-none bg-none">
-                <img src={search} alt="" />
-              </button>
+            <div className="flex flex-1 items-center gap-2.5 rounded-full border border-white/15 bg-transparent px-5 py-3 transition-colors duration-200 focus-within:border-white/40">
+              <img src={search} alt="" className="shrink-0 opacity-70" />
               <input
-                className="ml-2.5 w-[210px] border-none bg-none text-2xl font-semibold tracking-[0.009em] text-[#e8e8ed] outline-none"
+                className="w-full min-w-0 border-none bg-transparent text-lg font-medium tracking-[0.009em] text-[#e8e8ed] outline-none placeholder:text-white/40 md:text-2xl"
                 type="text"
                 placeholder="Search istore.com"
                 value={searchValue}
                 onChange={handleInputChange}
               />
+              {searchValue.length !== 0 ? (
+                <button
+                  type="button"
+                  className="flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center rounded-full border-none bg-white/15 transition-colors duration-200 hover:bg-white/25"
+                  onClick={clearInputValue}
+                >
+                  <img src={x} alt="" />
+                </button>
+              ) : null}
             </div>
-            {searchValue.length !== 0 ? (
-              <button
-                className="flex h-min w-min cursor-pointer items-center justify-center rounded-full bg-[#8f8f8f] transition-colors duration-200 hover:bg-white"
-                onClick={clearInputValue}
-              >
-                <img src={x} alt="" />
-              </button>
-            ) : null}
+            <Button type="submit" variant="filled" className="!px-7 !py-3 max-md:!w-full">
+              Search
+            </Button>
           </form>
-          <p className="font-normal text-[rgb(134,134,139)]">Quick Links</p>
+          <p className="mt-6 font-normal text-[rgb(134,134,139)]">Quick Links</p>
           {quickLinks.map((product) => {
             return (
               <Link
