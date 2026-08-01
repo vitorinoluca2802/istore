@@ -43,12 +43,22 @@ Single `BrowserRouter` with routes for: `/` (Landing), `/category/:categoryId` (
 
 - `ColorSwatches` (`src/components/ColorSwatches/ColorSwatches.jsx`) is a shared, presentation-only component (`colors`, `selected`, `onSelect`, `size` props) used by both `ProductCard` (small swatches, local `selectedColor` state, default = first color) and `ItemDetailContainer` (large swatches + a "Color — {name}" label). Selecting a swatch changes the actual photo (`deviceImageUrl` is re-evaluated with the new color) and also updates a CSS custom property (`--color-tint`) consumed by a `::before` radial-gradient behind the product photo (see `.product-img-backdrop` / `.product-detail-image-backdrop`) as an ambient-light accent — the backdrop container needs real padding around the `<img>` for the tint to be visible past the photo's opaque background, it isn't just decorative padding.
 - The selected color rides along into the cart: `ItemDetailContainer.addCart` attaches `color: selectedColor` and a resolved `image` URL (snapshotted at add-time, since cart items don't re-render with live color state) to the cart item. Because of this, cart items are no longer unique by `title` alone — `addItemToCart`'s merge check and `Cart.removeFromCart` both key on `title` **and** `color` together, so two colorways of the same product show as separate bag lines instead of merging or cross-deleting each other.
+- `ItemDetailContainer` also renders a color-thumbnail gallery (`.product-detail-gallery`) below the main photo — one real thumbnail per color (same `deviceImageUrl` helper) — as an alternate way to switch `selectedColor` besides the swatches.
+
+### Product detail extras
+
+- `ItemDetailContainer` renders a "You might also like" section (`.product-related`) below the highlights: up to 3 other products from the same category (`products.filter(...).slice(0, 3)`), rendered as `ProductCard`s with `info={false}`. Purely derived from the existing catalog, no separate "related products" data.
+- `ItemListContainer` shows a one-line marketing blurb per category from `categoryDescription` (`src/data/products.js`) under the H1.
 
 ### Cart state: Context + localStorage dual-write
 
 - `CartContext` (`src/context/CartContext.js`) is a bare `createContext()` holding `{ cart, setCart }`, provided once in `App.jsx` around the whole app. `cart` is seeded from `localStorage.getItem("cart")` on mount.
 - There is no cart reducer/service — every component that mutates the cart (`ItemDetailContainer.addCart`, `Cart.removeFromCart`, `Checkout.handleSubmit`) manually reads/writes `localStorage["cart"]` **and** calls `setCart` in the same function. When adding new cart-mutating logic, keep both in sync (update `localStorage` and call `setCart`) or state will drift from persisted storage on reload.
 - Cart items are cart-shaped product objects with an added `quantity` field (and `color` when the product has color options); items are keyed/deduped by `title` + `color` together (not a dedicated ID), so product titles must stay unique within the catalog.
+
+### Checkout form
+
+`Checkout.jsx` is a single-page form (Contact / Shipping address / Payment sections) plus an itemized order-summary sidebar built straight from `cart`. None of it is real: there is no payment gateway, no address validation service, and no server round-trip — card number/expiry/CVV/ZIP just use HTML `pattern` attributes for shape validation (e.g. `pattern="[0-9]{4,10}"` for ZIP), the same way the pre-existing email-match check works. On submit it behaves exactly as before: clear the cart and hand off to `Order.jsx`.
 
 ### URL slug convention
 

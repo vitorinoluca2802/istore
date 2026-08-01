@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { ProductCard } from "../ProductCard/ProductCard";
 import loader from "../../assets/loader.gif";
 import { useProducts } from "../Hooks/useProducts";
+import { categoryDescription } from "../../data/products";
 import "./ItemListContainer.css";
 
 const categories = ["Mac", "iPad", "iPhone", "Watch", "accessories"];
@@ -36,6 +37,13 @@ export const ItemListContainer = () => {
   return (
     <>
       <h1 className="category-title">{generateTitle(filteredCategory)}</h1>
+      {categoryDescription[filteredCategory] ? (
+        <p className="category-description">
+          {categoryDescription[filteredCategory]}
+        </p>
+      ) : (
+        ""
+      )}
       <div className="item-list-container">
         {loading ? (
           <div className="loader-container">

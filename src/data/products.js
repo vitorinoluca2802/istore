@@ -76,6 +76,62 @@ export const products = [
       "16GB unified memory, up to 2TB storage",
     ],
   },
+  {
+    title: "MacBook Air",
+    subtitle: "Sky blue. Sky high performance.",
+    price: 1099,
+    category: "Mac",
+    imageKey: "Mac16,12",
+    colors: [
+      { name: "Sky Blue", hex: "#acb6bc" },
+      { name: "Midnight", hex: "#292e37" },
+      { name: "Starlight", hex: "#bdb6ac" },
+      { name: "Silver", hex: "#ababae" },
+    ],
+    info: [
+      "13-inch Liquid Retina display",
+      "Apple M4 chip with up to 10-core GPU",
+      "12MP Center Stage camera with Desk View",
+      "Up to 18 hours of battery life",
+      "MagSafe 3 charging, two Thunderbolt / USB 4 ports",
+      "Fanless, silent design",
+    ],
+  },
+  {
+    title: "MacBook Pro",
+    subtitle: "Mind-blowing. Head-turning.",
+    price: 1599,
+    category: "Mac",
+    imageKey: "Mac15,6",
+    colors: [
+      { name: "Space Black", hex: "#252425" },
+      { name: "Silver", hex: "#acadaf" },
+    ],
+    info: [
+      "14-inch Liquid Retina XDR display",
+      "Apple M4 chip",
+      "Up to 24GB unified memory",
+      "Three Thunderbolt 4 ports, HDMI, SDXC card slot",
+      "Up to 18 hours of battery life",
+      "1080p FaceTime HD camera",
+    ],
+  },
+  {
+    title: "Mac mini",
+    subtitle: "Small but mighty.",
+    price: 599,
+    category: "Mac",
+    imageKey: "Mac16,10",
+    colors: [{ name: "Silver", hex: "#c9cacc" }],
+    info: [
+      "Apple M4 chip",
+      "Compact aluminum unibody design",
+      "Front and back Thunderbolt / USB 4 ports",
+      "Supports up to three displays",
+      "10Gb Ethernet option",
+      "Runs silently, fanless under most workloads",
+    ],
+  },
   // iPhone
   {
     title: "iPhone 17",
@@ -332,4 +388,44 @@ export const products = [
       "Thread border router built in",
     ],
   },
+  {
+    title: "AirPods Pro 3",
+    subtitle: "Adapts to you in the moment.",
+    price: 249,
+    category: "accessories",
+    imageKey: "AirPodsPro1,3-left",
+    colors: [{ name: "White", hex: "#e6e7eb" }],
+    info: [
+      "Next-generation Active Noise Cancellation",
+      "Adaptive Audio and Personalized Spatial Audio",
+      "Built-in heart rate sensing",
+      "IP57 dust and water resistance",
+      "USB-C charging case",
+    ],
+  },
+  {
+    title: "AirPods 4",
+    subtitle: "All-new design. All-new sound.",
+    price: 179,
+    category: "accessories",
+    imageKey: "AirPods1,5-case",
+    colors: [{ name: "White", hex: "#e6e7eb" }],
+    info: [
+      "Active Noise Cancellation",
+      "Adaptive Audio",
+      "Personalized Spatial Audio",
+      "Up to 30 hours combined battery life with the case",
+      "USB-C charging case",
+    ],
+  },
 ];
+
+// Short marketing blurb shown under the H1 on each category page
+// (`ItemListContainer`) — mirrors Apple's real category-page copy.
+export const categoryDescription = {
+  Mac: "The Mac you've been waiting for. Whichever way you look at it.",
+  iPad: "Lovable. Drawable. Magical. There's an iPad for everyone.",
+  iPhone: "Meet the lineup. Every model. All iPhone.",
+  Watch: "Which Apple Watch is right for you? Compare all the features.",
+  accessories: "Add a little (or a lot) to your everyday.",
+};

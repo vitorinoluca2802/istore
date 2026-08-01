@@ -12,9 +12,17 @@
   transition: 0.5s;
 }
 .category-title {
-  padding: 5rem 0;
+  padding: 5rem 0 0.5rem;
   text-align: center;
   font-size: 4rem;
+}
+.category-description {
+  text-align: center;
+  font-size: 1.25rem;
+  color: var(--color-text-secondary);
+  max-width: 600px;
+  margin: 0 auto 4rem;
+  padding: 0 1rem;
 }
 .loader {
   width: 50px;

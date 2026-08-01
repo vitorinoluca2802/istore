@@ -4,6 +4,7 @@ import { useProducts } from "../Hooks/useProducts";
 import loader from "../../assets/loader.gif";
 import { CartContext } from "../../context/CartContext";
 import { ColorSwatches } from "../ColorSwatches/ColorSwatches";
+import { ProductCard } from "../ProductCard/ProductCard";
 import { deviceImageUrl, categoryFallbackImage } from "../../data/products";
 import "./ItemDetailContainer.css";
 
@@ -90,6 +91,14 @@ export const ItemDetailContainer = () => {
     );
   }
 
+  const relatedProducts = products
+    .filter(
+      (product) =>
+        product.category === filteredProduct.category &&
+        product.title !== filteredProduct.title
+    )
+    .slice(0, 3);
+
   return (
     <>
       <div className="product-detailshop-container">
@@ -100,7 +109,7 @@ export const ItemDetailContainer = () => {
             >
               <img
                 src={imageSrc}
-                alt=""
+                alt={`${filteredProduct.title} in ${selectedColor}`}
                 onError={(event) => {
                   event.currentTarget.onerror = null;
                   event.currentTarget.src =
@@ -108,6 +117,35 @@ export const ItemDetailContainer = () => {
                 }}
               />
             </div>
+            {filteredProduct.colors && filteredProduct.colors.length > 1 ? (
+              <div className="product-detail-gallery">
+                {filteredProduct.colors.map((color) => (
+                  <button
+                    key={color.name}
+                    type="button"
+                    className={
+                      "product-detail-gallery-thumb" +
+                      (selectedColor === color.name
+                        ? " product-detail-gallery-thumb--selected"
+                        : "")
+                    }
+                    onClick={() => setSelectedColor(color.name)}
+                  >
+                    <img
+                      src={deviceImageUrl(filteredProduct.imageKey, color.name)}
+                      alt={`${filteredProduct.title} in ${color.name}`}
+                      onError={(event) => {
+                        event.currentTarget.onerror = null;
+                        event.currentTarget.src =
+                          categoryFallbackImage[filteredProduct.category];
+                      }}
+                    />
+                  </button>
+                ))}
+              </div>
+            ) : (
+              ""
+            )}
           </div>
           <div className="product-detail-info-container">
             <div className="product-detail-info">
@@ -219,6 +257,18 @@ export const ItemDetailContainer = () => {
                 <li key={index}>{item}</li>
               ))}
             </ul>
+          </div>
+        ) : (
+          ""
+        )}
+        {relatedProducts.length > 0 ? (
+          <div className="product-related">
+            <h2 className="product-related-title">You might also like</h2>
+            <div className="product-related-list">
+              {relatedProducts.map((product) => (
+                <ProductCard key={product.title} product={product} info={false} />
+              ))}
+            </div>
           </div>
         ) : (
           ""
