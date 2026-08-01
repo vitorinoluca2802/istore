@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { ProductCard } from "../ProductCard/ProductCard";
 import loader from "../../assets/loader.gif";
-import { useFirebaseProducts } from "../Hooks/useFirebaseProductos";
+import { useProducts } from "../Hooks/useProducts";
 import "./ItemListContainer.css";
 
 const categories = ["Mac", "iPad", "iPhone", "Watch", "accessories"];
@@ -14,14 +14,14 @@ export const ItemListContainer = () => {
     (category) => category.toLowerCase() === categoryId
   );
 
-  const { products } = useFirebaseProducts();
+  const { products, loading } = useProducts();
 
   useEffect(() => {
     const filtered = products.filter(
-      (product) => product.category === categoryId
+      (product) => product.category === filteredCategory
     );
     setFilteredProducts(filtered);
-  }, [categoryId, products]);
+  }, [filteredCategory, products]);
 
   const generateTitle = (category) => {
     if (["Mac", "iPad", "iPhone"].includes(category)) {
@@ -37,10 +37,12 @@ export const ItemListContainer = () => {
     <>
       <h1 className="category-title">{generateTitle(filteredCategory)}</h1>
       <div className="item-list-container">
-        {filteredProducts.length === 0 ? (
+        {loading ? (
           <div className="loader-container">
             <img className="loader" src={loader} alt="" />
           </div>
+        ) : filteredProducts.length === 0 ? (
+          <p className="no-matches">No products found in this category yet.</p>
         ) : (
           filteredProducts.map((product) => (
             <ProductCard key={product.title} product={product} info={true} />

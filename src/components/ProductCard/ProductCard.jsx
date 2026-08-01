@@ -1,8 +1,18 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import chevronRight from "../../assets/chevron-right.png";
+import { ColorSwatches } from "../ColorSwatches/ColorSwatches";
+import { deviceImageUrl, categoryFallbackImage } from "../../data/products";
 import "./ProductCard.css";
+
 export const ProductCard = ({ product, info }) => {
   const navigate = useNavigate();
+  const [selectedColor, setSelectedColor] = useState(product.colors?.[0]?.name);
+  const selectedHex = product.colors?.find(
+    (color) => color.name === selectedColor
+  )?.hex;
+  const imageSrc = deviceImageUrl(product.imageKey, selectedColor);
+
   const handleButton = () => {
     navigate(
       `/shop/buy-${product.category}/${product.title
@@ -10,15 +20,25 @@ export const ProductCard = ({ product, info }) => {
         .toLocaleLowerCase()}`
     );
   };
+
   return (
     <>
       <div className="product-card">
         <div className="product-detail">
-          <img
-            className="product-img"
-            src={product.image}
-            alt={product.title}
-          />
+          <div
+            className="product-img-backdrop"
+            style={{ "--color-tint": selectedHex }}
+          >
+            <img
+              className="product-img"
+              src={imageSrc}
+              alt={product.title}
+              onError={(event) => {
+                event.currentTarget.onerror = null;
+                event.currentTarget.src = categoryFallbackImage[product.category];
+              }}
+            />
+          </div>
           <strong className="product-title">{product.title}</strong>
           {product.subtitle ? (
             <span className="product-subtitle">{product.subtitle}</span>
@@ -30,11 +50,20 @@ export const ProductCard = ({ product, info }) => {
               ? `$${product.price}.00`
               : `From $${product.price}*`}
           </p>
+          {product.colors ? (
+            <ColorSwatches
+              colors={product.colors}
+              selected={selectedColor}
+              onSelect={setSelectedColor}
+            />
+          ) : (
+            ""
+          )}
           <div className="product-buttons">
             <button onClick={handleButton} className="btn btn-buy">
               Buy
             </button>
-            <button className="btn btn-info">
+            <button onClick={handleButton} className="btn btn-info">
               Learn more
               <img src={chevronRight} alt="arrow right" />
             </button>
@@ -46,8 +75,8 @@ export const ProductCard = ({ product, info }) => {
           <>
             <div className="product-info">
               <ul>
-                {product.info.map((info) => {
-                  return <li key={Math.random()}>{info}</li>;
+                {product.info.map((infoItem, index) => {
+                  return <li key={index}>{infoItem}</li>;
                 })}
               </ul>
             </div>

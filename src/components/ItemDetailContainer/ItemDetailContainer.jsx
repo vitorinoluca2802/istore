@@ -1,16 +1,19 @@
-import React, { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useFirebaseProducts } from "../Hooks/useFirebaseProductos";
+import { useProducts } from "../Hooks/useProducts";
 import loader from "../../assets/loader.gif";
 import { CartContext } from "../../context/CartContext";
+import { ColorSwatches } from "../ColorSwatches/ColorSwatches";
+import { deviceImageUrl, categoryFallbackImage } from "../../data/products";
 import "./ItemDetailContainer.css";
 
 export const ItemDetailContainer = () => {
-  const { cart, setCart } = useContext(CartContext);
+  const { setCart } = useContext(CartContext);
   const navigate = useNavigate();
-  const { products } = useFirebaseProducts();
+  const { products } = useProducts();
   const { productName } = useParams();
-  const [filteredProduct, setFilteredProduct] = useState(null);
+  const [filteredProduct, setFilteredProduct] = useState(undefined);
+  const [selectedColor, setSelectedColor] = useState(undefined);
   const [appleCare, setAppleCare] = useState(false);
   const handleAppleCare = () => {
     setAppleCare(!appleCare);
@@ -22,35 +25,55 @@ export const ItemDetailContainer = () => {
         product.title.toLowerCase().replace(/\s+/g, "-") ===
         productName.toLowerCase()
     );
-    setFilteredProduct(product);
+    setFilteredProduct(product ?? null);
+    setSelectedColor(product?.colors?.[0]?.name);
   }, [products, productName]);
 
-  const addCart = () => {
-    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
-    const productExists = storedCart.find(
-      (item) => item.title === filteredProduct.title
+  const selectedHex = filteredProduct?.colors?.find(
+    (color) => color.name === selectedColor
+  )?.hex;
+  const imageSrc = filteredProduct
+    ? deviceImageUrl(filteredProduct.imageKey, selectedColor)
+    : undefined;
+
+  const addItemToCart = (cart, item) => {
+    const existingItem = cart.find(
+      (cartItem) =>
+        cartItem.title === item.title && cartItem.color === item.color
     );
-
-    if (productExists) {
-      const updatedCart = storedCart.map((item) =>
-        item.title === filteredProduct.title
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
+    if (existingItem) {
+      return cart.map((cartItem) =>
+        cartItem.title === item.title && cartItem.color === item.color
+          ? { ...cartItem, quantity: cartItem.quantity + 1 }
+          : cartItem
       );
+    }
+    return [...cart, { ...item, quantity: 1 }];
+  };
 
-      setCart(updatedCart);
-      localStorage.setItem("cart", JSON.stringify(updatedCart));
-    } else {
-      const updatedCart = [...storedCart, { ...filteredProduct, quantity: 1 }];
+  const addCart = () => {
+    let updatedCart = JSON.parse(localStorage.getItem("cart")) || [];
+    updatedCart = addItemToCart(updatedCart, {
+      ...filteredProduct,
+      color: selectedColor,
+      image: imageSrc,
+    });
 
-      setCart(updatedCart);
-      localStorage.setItem("cart", JSON.stringify(updatedCart));
+    if (appleCare) {
+      updatedCart = addItemToCart(updatedCart, {
+        title: `${filteredProduct.title} AppleCare+`,
+        category: filteredProduct.category,
+        image: imageSrc,
+        price: (filteredProduct.price * 10) / 100,
+      });
     }
 
+    setCart(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
     navigate("/cart");
   };
 
-  if (filteredProduct == null) {
+  if (filteredProduct === undefined) {
     return (
       <div className="loader-container">
         <img className="loader" src={loader} alt="" />
@@ -58,21 +81,51 @@ export const ItemDetailContainer = () => {
     );
   }
 
+  if (filteredProduct === null) {
+    return (
+      <div className="error404">
+        <h1>Product not found</h1>
+        <Link to="/store">Go to Store</Link>
+      </div>
+    );
+  }
+
   return (
-    <h1>
-      {filteredProduct == null ? (
-        <div className="loader-container">
-          <img className="loader" src={loader} alt="" />
-        </div>
-      ) : (
-        <div className="product-detailshop-container">
+    <>
+      <div className="product-detailshop-container">
           <div className="product-detail-image">
-            <img src={filteredProduct.image} alt="" />
+            <div
+              className="product-detail-image-backdrop"
+              style={{ "--color-tint": selectedHex }}
+            >
+              <img
+                src={imageSrc}
+                alt=""
+                onError={(event) => {
+                  event.currentTarget.onerror = null;
+                  event.currentTarget.src =
+                    categoryFallbackImage[filteredProduct.category];
+                }}
+              />
+            </div>
           </div>
           <div className="product-detail-info-container">
             <div className="product-detail-info">
               <h1 className="buy-title">Buy {filteredProduct.title}</h1>
               <h2 className="buy-price">${filteredProduct.price}.00</h2>
+              {filteredProduct.colors ? (
+                <div className="product-detail-colors">
+                  <span className="subtitle">Color — {selectedColor}</span>
+                  <ColorSwatches
+                    colors={filteredProduct.colors}
+                    selected={selectedColor}
+                    onSelect={setSelectedColor}
+                    size="large"
+                  />
+                </div>
+              ) : (
+                ""
+              )}
               <div className="applecare">
                 <h2 className="applecare-title">Add AppleCare+</h2>
                 <div className="applecare-container">
@@ -156,7 +209,20 @@ export const ItemDetailContainer = () => {
             </div>
           </div>
         </div>
-      )}
-    </h1>
+        {filteredProduct.info ? (
+          <div className="product-highlights">
+            <h2 className="product-highlights-title">
+              {filteredProduct.title} highlights
+            </h2>
+            <ul className="product-highlights-list">
+              {filteredProduct.info.map((item, index) => (
+                <li key={index}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        ) : (
+          ""
+        )}
+    </>
   );
 };

@@ -1,6 +1,6 @@
 # iStore Ecommerce
 
-Este es un proyecto de eCommerce para la venta de productos en línea, desarrollado con React.js y Firebase. Permite a los usuarios agregar productos al carrito, realizar el proceso de pago y generar órdenes de compra.
+Este es un proyecto de eCommerce para la venta de productos en línea, desarrollado con React.js. Permite a los usuarios agregar productos al carrito, realizar el proceso de pago y generar órdenes de compra. El catálogo de productos es un dataset local (no requiere backend ni credenciales de ningún servicio externo).
 
 ## Características
 
@@ -9,7 +9,6 @@ Este es un proyecto de eCommerce para la venta de productos en línea, desarroll
 - Actualización del carrito en tiempo real.
 - Proceso de pago seguro.
 - Generación de órdenes de compra.
-- Integración con Firebase para almacenamiento y recuperación de datos.
 
 ## Requisitos previos
 
@@ -24,17 +23,17 @@ Este es un proyecto de eCommerce para la venta de productos en línea, desarroll
    
 2. Navega al directorio del proyecto:
 
-   cd iStoreEcommerce
+   cd istore
 
 3. Instala las dependencias
 
    npm install
-   
+
 4. Inicia la aplicación en modo de desarrollo:
 
-   npm start
+   npm run dev
 
-La aplicación estará disponible en `http://localhost:3000`.
+La aplicación estará disponible en `http://localhost:5173`.
 
 ## Contribución
 

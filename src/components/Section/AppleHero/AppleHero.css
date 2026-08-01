@@ -1,3 +1,17 @@
+.apple-hero-wordmark {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.apple-hero-wordmark img {
+  width: 26px;
+  height: 26px;
+}
+.apple-hero-wordmark span {
+  color: #fff;
+  font-size: 28px;
+  font-weight: 600;
+}
 .iphone-section {
   height: 50svh;
   background: url("../../../assets//iphone-14.jpg"), #000;
@@ -9,11 +23,9 @@
   align-items: start;
   justify-content: center;
 }
-.iphone-section img {
+.iphone-section .apple-hero-wordmark {
   position: absolute;
   top: 5vh;
-  width: 100%;
-  max-width: 250px;
 }
 @media (max-width: 768px) {
   .iphone-section {
@@ -48,8 +60,7 @@
   justify-content: center;
   position: relative;
 }
-.section-left img {
-  width: 200px;
+.section-left .apple-hero-wordmark {
   position: absolute;
   top: 5vh;
 }
@@ -66,15 +77,9 @@
   align-items: start;
   justify-content: center;
 }
-.section-left img {
-  position: absolute;
-  top: 5vh;
-  width: 150px;
-}
-.section-right img {
+.section-right .apple-hero-wordmark {
   position: absolute;
   top: 3vh;
-  width: 150px;
 }
 @media (max-width: 1400px) {
   .section-right {

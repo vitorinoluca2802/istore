@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { ProductCard } from "../components/ProductCard/ProductCard";
-import { useFirebaseProducts } from "../components/Hooks/useFirebaseProductos";
+import { useProducts } from "../components/Hooks/useProducts";
 
 export const Search = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const { productName } = useParams();
-  const { products } = useFirebaseProducts();
+  const { products } = useProducts();
 
   useEffect(() => {
     if (products.length > 0) {

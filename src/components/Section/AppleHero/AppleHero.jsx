@@ -1,27 +1,33 @@
-import React from "react";
 import { Link } from "react-router-dom";
-import iphonelogo from "../../../assets/iphonelogo.png";
-import watchserieslogo from "../../../assets/logo-watch-series-8.png";
-import homepodlogo from "../../../assets/homepod-logo.png";
+import appleLogo from "../../../assets/apple.svg";
 import "./AppleHero.css";
 
 const AppleHero = () => {
   return (
     <>
-      <Link to="/shop/buy-iphone/iphone-14-pro">
+      <Link to="/shop/buy-iphone/iphone-17-pro">
         <div className="iphone-section">
-          <img src={iphonelogo} alt="iPhone" />
+          <div className="apple-hero-wordmark">
+            <img src={appleLogo} alt="" />
+            <span>iPhone 17 Pro</span>
+          </div>
         </div>
       </Link>
       <div className="section-container">
-        <Link to="/shop/buy-accessories/homepod---midnight">
-          <div className="section-left homepod-section">
-            <img src={homepodlogo} alt="HomePod" />
+        <Link to="/shop/buy-accessories/homepod">
+          <div className="section-left">
+            <div className="apple-hero-wordmark">
+              <img src={appleLogo} alt="" />
+              <span>HomePod</span>
+            </div>
           </div>
         </Link>
-        <Link to="/shop/buy-watch/apple-watch-series-8">
-          <div className="section-right watch-series-8-section">
-            <img src={watchserieslogo} alt="Watch Series 8" />
+        <Link to="/shop/buy-watch/apple-watch-series-10">
+          <div className="section-right">
+            <div className="apple-hero-wordmark">
+              <img src={appleLogo} alt="" />
+              <span>Watch Series 10</span>
+            </div>
           </div>
         </Link>
       </div>
