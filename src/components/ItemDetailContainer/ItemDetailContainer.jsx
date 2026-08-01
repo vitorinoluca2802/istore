@@ -103,13 +103,13 @@ export const ItemDetailContainer = () => {
       <div className="mx-auto flex min-h-[100svh] max-w-[1440px] px-6 pt-24 max-md:flex-col md:px-8 md:pt-28">
         <Reveal className="flex flex-1 flex-col items-center justify-center">
           <div
-            className="relative w-full max-w-[340px] p-10 before:absolute before:inset-0 before:z-0 before:rounded-full before:opacity-60 before:transition-[background] before:duration-[250ms] before:content-[''] before:[background:radial-gradient(circle,var(--color-tint,transparent)_0%,transparent_70%)]"
+            className="relative w-full max-w-[340px] p-10 before:absolute before:inset-0 before:z-0 before:rounded-full before:opacity-60 before:blur-2xl before:transition-[background] before:duration-[250ms] before:content-[''] before:[background:radial-gradient(circle,var(--color-tint,transparent)_0%,transparent_70%)]"
             style={{ "--color-tint": selectedHex }}
           >
             <img
               src={imageSrc}
               alt={`${filteredProduct.title} in ${selectedColor}`}
-              className="relative z-[1] block w-full max-w-[300px] p-4"
+              className="relative z-[1] block w-full max-w-[300px] p-4 drop-shadow-[0_30px_24px_rgba(0,0,0,0.18)]"
               onError={(event) => {
                 event.currentTarget.onerror = null;
                 event.currentTarget.src =
