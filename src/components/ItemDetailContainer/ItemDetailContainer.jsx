@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useFirebaseProducts } from "../Hooks/useFirebaseProductos";
 import loader from "../../assets/loader.gif";
@@ -6,7 +6,7 @@ import { CartContext } from "../../context/CartContext";
 import "./ItemDetailContainer.css";
 
 export const ItemDetailContainer = () => {
-  const { cart, setCart } = useContext(CartContext);
+  const { setCart } = useContext(CartContext);
   const navigate = useNavigate();
   const { products } = useFirebaseProducts();
   const { productName } = useParams();
@@ -25,28 +25,33 @@ export const ItemDetailContainer = () => {
     setFilteredProduct(product);
   }, [products, productName]);
 
-  const addCart = () => {
-    const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
-    const productExists = storedCart.find(
-      (item) => item.title === filteredProduct.title
-    );
-
-    if (productExists) {
-      const updatedCart = storedCart.map((item) =>
-        item.title === filteredProduct.title
-          ? { ...item, quantity: item.quantity + 1 }
-          : item
+  const addItemToCart = (cart, item) => {
+    const existingItem = cart.find((cartItem) => cartItem.title === item.title);
+    if (existingItem) {
+      return cart.map((cartItem) =>
+        cartItem.title === item.title
+          ? { ...cartItem, quantity: cartItem.quantity + 1 }
+          : cartItem
       );
+    }
+    return [...cart, { ...item, quantity: 1 }];
+  };
 
-      setCart(updatedCart);
-      localStorage.setItem("cart", JSON.stringify(updatedCart));
-    } else {
-      const updatedCart = [...storedCart, { ...filteredProduct, quantity: 1 }];
+  const addCart = () => {
+    let updatedCart = JSON.parse(localStorage.getItem("cart")) || [];
+    updatedCart = addItemToCart(updatedCart, filteredProduct);
 
-      setCart(updatedCart);
-      localStorage.setItem("cart", JSON.stringify(updatedCart));
+    if (appleCare) {
+      updatedCart = addItemToCart(updatedCart, {
+        title: `${filteredProduct.title} AppleCare+`,
+        category: filteredProduct.category,
+        image: filteredProduct.image,
+        price: (filteredProduct.price * 10) / 100,
+      });
     }
 
+    setCart(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
     navigate("/cart");
   };
 

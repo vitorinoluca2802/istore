@@ -24,17 +24,26 @@ Este es un proyecto de eCommerce para la venta de productos en línea, desarroll
    
 2. Navega al directorio del proyecto:
 
-   cd iStoreEcommerce
+   cd istore
 
 3. Instala las dependencias
 
    npm install
-   
-4. Inicia la aplicación en modo de desarrollo:
 
-   npm start
+4. Crea un archivo `.env` en la raíz del proyecto con las credenciales de tu proyecto de Firebase:
 
-La aplicación estará disponible en `http://localhost:3000`.
+   VITE_REACT_APP_apiKey=...
+   VITE_REACT_APP_authDomain=...
+   VITE_REACT_APP_projectId=...
+   VITE_REACT_APP_storageBucket=...
+   VITE_REACT_APP_messagingSenderId=...
+   VITE_REACT_APP_appId=...
+
+5. Inicia la aplicación en modo de desarrollo:
+
+   npm run dev
+
+La aplicación estará disponible en `http://localhost:5173`.
 
 ## Contribución
 

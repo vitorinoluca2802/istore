@@ -34,7 +34,7 @@ export const ProductCard = ({ product, info }) => {
             <button onClick={handleButton} className="btn btn-buy">
               Buy
             </button>
-            <button className="btn btn-info">
+            <button onClick={handleButton} className="btn btn-info">
               Learn more
               <img src={chevronRight} alt="arrow right" />
             </button>
@@ -46,8 +46,8 @@ export const ProductCard = ({ product, info }) => {
           <>
             <div className="product-info">
               <ul>
-                {product.info.map((info) => {
-                  return <li key={Math.random()}>{info}</li>;
+                {product.info.map((infoItem, index) => {
+                  return <li key={index}>{infoItem}</li>;
                 })}
               </ul>
             </div>

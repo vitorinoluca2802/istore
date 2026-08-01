@@ -23,7 +23,7 @@
   justify-content: center;
 }
 .product-detail-info {
-  background: #fbfbfd;
+  background: var(--color-surface);
   border-radius: 10px;
   padding: 2rem 1.5rem;
   max-width: 410px;
@@ -38,7 +38,7 @@
   font-size: 14px;
 }
 .product-detail-link {
-  color: #06c;
+  color: var(--color-link);
   text-decoration: none;
   display: flex;
   align-items: center;
@@ -55,7 +55,7 @@
   text-decoration: underline;
 }
 .product-detail-link svg {
-  fill: #06c;
+  fill: var(--color-link);
   position: absolute;
   left: -20px;
 }
@@ -69,8 +69,8 @@
   padding: 2rem 0;
 }
 .applecare {
-  border-top: 1px solid #d2d2d7;
-  border-bottom: 1px solid #d2d2d7;
+  border-top: 1px solid var(--color-divider);
+  border-bottom: 1px solid var(--color-divider);
   padding: 2rem 0;
 }
 .applecare-topside {
@@ -92,7 +92,7 @@
 .applecare-add-button {
   border: none;
   background: none;
-  color: #06c;
+  color: var(--color-link);
   font-size: 15px;
   cursor: pointer;
 }
@@ -118,7 +118,7 @@
   margin-left: 2rem;
 }
 .btn-add-cart {
-  background: #0071e3;
+  background: var(--color-link);
   border: none;
   border-radius: 10px;
   color: #fff;
@@ -129,7 +129,7 @@
   margin-bottom: 20px;
 }
 .btn-add-cart:hover {
-  background-color: #0077ed;
+  background-color: var(--color-link-hover);
 }
 .product-save p {
   max-width: 330px;

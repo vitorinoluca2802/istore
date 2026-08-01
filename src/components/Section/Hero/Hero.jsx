@@ -1,10 +1,8 @@
-import React from "react";
 import "./Hero.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import imacImage from "../../../assets/hello.png";
 import imac24Image from "../../../assets/imac-hero.jpg";
 const Hero = () => {
-  const navigate = useNavigate();
   return (
     <section className="hero">
       <div className="hero-content">

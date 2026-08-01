@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import iphonelogo from "../../../assets/iphonelogo.png";
 import watchserieslogo from "../../../assets/logo-watch-series-8.png";

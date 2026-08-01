@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { CartContext } from "../../context/CartContext";
 import { Link } from "react-router-dom";
@@ -9,7 +9,7 @@ export const Cart = () => {
   const { cart, setCart } = useContext(CartContext);
   let cartPrice = 0;
 
-  cart.map((product) => {
+  cart.forEach((product) => {
     cartPrice += product.price * product.quantity;
   });
 

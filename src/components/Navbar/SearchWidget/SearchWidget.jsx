@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import search from "../../../assets/search.svg";
 import arrow from "../../../assets/arrow-right.svg";
 import x from "../../../assets/x.svg";
@@ -9,13 +9,12 @@ export const SearchWidget = () => {
   const [openSearch, setOpenSearch] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [quickLinks, setQuickLinks] = useState([]);
-  const [printFilter, setPrintFilter] = useState([]);
   const navigate = useNavigate();
   const { products } = useFirebaseProducts();
   useEffect(() => {
     if (products.length > 0) {
       const getRandomProducts = (arr, count) => {
-        const shuffled = arr.sort(() => 0.5 - Math.random());
+        const shuffled = [...arr].sort(() => 0.5 - Math.random());
         return shuffled.slice(0, count);
       };
       const randomProducts = getRandomProducts(products, 5);
@@ -34,10 +33,6 @@ export const SearchWidget = () => {
   const handleFormSubmit = (event) => {
     event.preventDefault();
     if (searchValue !== "") {
-      const filteredProducts = products.filter((product) => {
-        return product.title.toLowerCase().includes(searchValue.toLowerCase());
-      });
-      setPrintFilter(filteredProducts);
       navigate(`/search/${searchValue}`);
       handleSearch();
       setSearchValue("");

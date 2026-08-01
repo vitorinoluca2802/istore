@@ -18,10 +18,10 @@ export const ItemListContainer = () => {
 
   useEffect(() => {
     const filtered = products.filter(
-      (product) => product.category === categoryId
+      (product) => product.category === filteredCategory
     );
     setFilteredProducts(filtered);
-  }, [categoryId, products]);
+  }, [filteredCategory, products]);
 
   const generateTitle = (category) => {
     if (["Mac", "iPad", "iPhone"].includes(category)) {

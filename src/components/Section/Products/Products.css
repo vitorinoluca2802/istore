@@ -1,3 +1,9 @@
+.section-products-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+}
 .section-products {
   max-width: 1000px;
   margin: 10rem auto;
@@ -8,7 +14,7 @@
   margin-bottom: 5rem;
 }
 .section-products h2 span {
-  color: gray;
+  color: var(--color-text-secondary);
   font-weight: 600;
 }
 .container-list {

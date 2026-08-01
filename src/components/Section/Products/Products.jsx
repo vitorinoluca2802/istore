@@ -1,5 +1,5 @@
 import { useFirebaseProducts } from "../../Hooks/useFirebaseProductos";
-import { ProductCard } from "../../../../../istore/src/components/ProductCard/ProductCard";
+import { ProductCard } from "../../ProductCard/ProductCard";
 import loader from "../../../assets/loader.gif";
 import "./Products.css";
 export const Products = () => {
@@ -7,7 +7,7 @@ export const Products = () => {
   return (
     <>
       {products.length == 0 ? (
-        <div className="loader-container">
+        <div className="section-products-loader">
           <img className="loader" src={loader} alt="" />
         </div>
       ) : (

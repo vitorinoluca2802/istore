@@ -20,11 +20,11 @@
   font-size: 14px;
   list-style: none;
   margin: 30px 0;
-  color: #808080;
+  color: var(--color-text-secondary);
 }
 .line {
   width: 80%;
-  border-bottom: 1px solid #d2d2d7;
+  border-bottom: 1px solid var(--color-divider);
 }
 .product-img {
   margin: 0 auto;
@@ -38,7 +38,7 @@
   gap: 15px;
 }
 .product-title {
-  color: #111;
+  color: var(--color-text);
   font-size: 1.5rem;
   margin-top: 1rem;
   font-weight: 600;
@@ -54,8 +54,6 @@
   line-height: 1.4285914286;
   font-weight: 400;
   letter-spacing: -0.016em;
-  font-family: SF Pro Text, SF Pro Icons, Helvetica Neue, Helvetica, Arial,
-    sans-serif;
 }
 .btn {
   border: none;
@@ -66,19 +64,19 @@
 }
 .btn-buy {
   font-size: 12px;
-  background: #0071e3;
+  background: var(--color-link);
   color: #fff;
   width: 45px;
   height: 24px;
 }
 .btn-buy:hover {
-  background: #0077ed;
+  background: var(--color-link-hover);
 }
 .btn-info:hover {
   text-decoration: underline;
 }
 .btn-info {
-  color: #0071e3;
+  color: var(--color-link);
   display: flex;
   align-items: center;
   justify-content: center;
