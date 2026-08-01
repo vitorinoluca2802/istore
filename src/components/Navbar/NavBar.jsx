@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { SearchWidget } from "./SearchWidget/SearchWidget";
 import { CartWidget } from "./CartWidget/CartWidget";
+import { useScrolled } from "../Hooks/useScrolled";
 import logo from "../../assets/apple.svg";
 import menu from "../../assets/menu.svg";
 import close from "../../assets/close.svg";
@@ -16,21 +17,28 @@ export const NavBar = () => {
     { id: 7, name: "Support", url: "support" },
   ];
   const [openNavbar, setOpenNavbar] = useState(false);
+  const scrolled = useScrolled();
   const handleToggleNavbar = () => {
     setOpenNavbar(!openNavbar);
   };
   return (
-    <header className="fixed left-0 top-0 z-10 h-[50px] w-full bg-[rgba(22,22,23,0.88)] leading-[50px]">
+    <header
+      className={`fixed left-0 top-0 z-10 h-[50px] w-full bg-[rgba(22,22,23,0.8)] leading-[50px] backdrop-blur-xl transition-[border-color,box-shadow] duration-300 ${
+        scrolled
+          ? "border-b border-white/10 shadow-[0_1px_20px_rgba(0,0,0,0.25)]"
+          : "border-b border-transparent"
+      }`}
+    >
       <nav>
         <ul className="flex items-center justify-center gap-[50px] max-md:justify-between max-md:px-8">
           <li>
-            <Link to={`/`}>
+            <Link to={`/`} className="transition-opacity duration-200 hover:opacity-70">
               <img src={logo} alt="" />
             </Link>
           </li>
           <li
             className={
-              "max-md:fixed max-md:inset-x-0 max-md:top-0 max-md:z-[1] max-md:h-[100svh] max-md:w-full max-md:bg-[#111] max-md:transition-transform max-md:duration-500 " +
+              "max-md:fixed max-md:inset-x-0 max-md:top-0 max-md:z-[1] max-md:h-[100svh] max-md:w-full max-md:bg-[rgba(17,17,17,0.92)] max-md:backdrop-blur-xl max-md:transition-transform max-md:duration-500 " +
               (openNavbar ? "" : "max-md:-translate-y-full")
             }
           >
@@ -51,9 +59,10 @@ export const NavBar = () => {
                           : `/category/${link.url}`
                       }
                       onClick={handleToggleNavbar}
-                      className="text-xs text-[#afafaf] no-underline hover:text-white max-md:text-[1.3rem] max-md:font-semibold"
+                      className="group relative text-xs text-[#afafaf] no-underline transition-colors duration-200 hover:text-white max-md:text-[1.3rem] max-md:font-semibold"
                     >
                       {link.name}
+                      <span className="absolute -bottom-1 left-0 h-px w-full origin-left scale-x-0 bg-white transition-transform duration-200 group-hover:scale-x-100 max-md:hidden" />
                     </Link>
                   </li>
                 );

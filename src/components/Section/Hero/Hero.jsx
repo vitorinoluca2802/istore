@@ -1,29 +1,44 @@
-import { Link } from "react-router-dom";
-import imacImage from "../../../assets/hello.png";
-import imac24Image from "../../../assets/imac-hero.jpg";
+import { products, deviceImageUrl, categoryFallbackImage } from "../../../data/products";
+import { Reveal } from "../../Reveal/Reveal";
+import { Button } from "../../Button/Button";
+
+const iMac = products.find((product) => product.title === "iMac 8-Core GPU");
+const imageSrc = deviceImageUrl(iMac.imageKey, iMac.colors[0].name);
+const slug = iMac.title.replace(/\s+/g, "-").toLowerCase();
 
 const Hero = () => {
   return (
-    <section className="flex h-screen flex-col items-center justify-center bg-[#fafafa] p-10 text-center">
-      <div className="mx-auto flex max-w-[800px] flex-col items-center justify-center gap-4">
-        <img src={imacImage} alt="Hello" className="w-full max-w-[200px]" />
-        <h1 className="text-4xl font-semibold text-text">
+    <section className="flex flex-col items-center justify-center bg-surface px-6 pb-0 pt-32 text-center md:pt-40">
+      <Reveal className="mx-auto flex max-w-[800px] flex-col items-center justify-center gap-3">
+        <p className="text-sm font-semibold uppercase tracking-[0.08em] text-text-secondary">
+          iMac
+        </p>
+        <h1 className="text-5xl font-semibold tracking-[-0.02em] text-text md:text-6xl">
           Say hello to the new iMac.
         </h1>
-        <p className="text-text-secondary">
+        <p className="max-w-[520px] text-xl text-text-secondary">
           Experience the power and beauty of the all-new iMac.
         </p>
-        <Link to="/shop/buy-mac/imac-8-core-gpu">
-          <button className="my-4 mb-20 cursor-pointer rounded-full border-none bg-link px-5 py-2.5 text-base text-white hover:bg-link-hover">
-            Buy iMac
-          </button>
-        </Link>
+        <div className="mt-2 flex items-center gap-6">
+          <Button to={`/shop/buy-${iMac.category}/${slug}`} variant="filled">
+            Buy
+          </Button>
+          <Button to={`/shop/buy-${iMac.category}/${slug}`} variant="text" chevron>
+            Learn more
+          </Button>
+        </div>
+      </Reveal>
+      <Reveal delay={150} className="mt-10 w-full">
         <img
-          src={imac24Image}
-          alt="iMac 24"
-          className="ml-[30px] w-full"
+          src={imageSrc}
+          alt={iMac.title}
+          onError={(event) => {
+            event.currentTarget.onerror = null;
+            event.currentTarget.src = categoryFallbackImage[iMac.category];
+          }}
+          className="mx-auto max-h-[560px] w-full max-w-[900px] object-contain"
         />
-      </div>
+      </Reveal>
     </section>
   );
 };

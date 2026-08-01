@@ -10,6 +10,7 @@ export default {
         "link-hover": "#0077ed",
         divider: "#d2d2d7",
         surface: "#fbfbfd",
+        "surface-secondary": "#f5f5f7",
       },
       fontFamily: {
         sans: [
@@ -23,6 +24,10 @@ export default {
           "Arial",
           "sans-serif",
         ],
+      },
+      boxShadow: {
+        card: "0 2px 24px rgba(0, 0, 0, 0.06)",
+        "card-hover": "0 12px 40px rgba(0, 0, 0, 0.12)",
       },
     },
   },

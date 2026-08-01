@@ -31,24 +31,28 @@ const badges = [
 
 export const TrustBadges = () => {
   return (
-    <section className="border-y border-divider bg-surface">
-      <div className="mx-auto grid max-w-[1000px] grid-cols-1 gap-8 px-8 py-12 min-[600px]:grid-cols-2 min-[900px]:grid-cols-4">
+    <section className="border-y border-divider bg-surface-secondary">
+      <div className="mx-auto grid max-w-[1100px] grid-cols-1 gap-10 px-6 py-16 min-[600px]:grid-cols-2 min-[900px]:grid-cols-4 md:px-8">
         {badges.map((badge) => (
           <div key={badge.title} className="flex flex-col items-center text-center">
-            <svg
-              width="32"
-              height="32"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="mb-3 text-link"
-            >
-              {badge.icon}
-            </svg>
-            <h3 className="text-base font-semibold text-text">{badge.title}</h3>
+            <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-card">
+              <svg
+                width="22"
+                height="22"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="text-link"
+              >
+                {badge.icon}
+              </svg>
+            </div>
+            <h3 className="text-base font-semibold tracking-[-0.01em] text-text">
+              {badge.title}
+            </h3>
             <p className="mt-1 text-sm text-text-secondary">
               {badge.description}
             </p>

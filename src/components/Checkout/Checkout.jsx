@@ -69,19 +69,19 @@ export const Checkout = () => {
 
   return (
     <>
-      <div className="mt-16 flex justify-between border-b border-[#111] p-8">
-        <h2 className="text-2xl font-semibold">Checkout</h2>
-        <p>Order Summary: ${cartPrice}.00</p>
+      <div className="mt-[50px] flex justify-between border-b border-divider px-6 py-6 md:px-8">
+        <h2 className="text-2xl font-semibold tracking-[-0.01em] text-text">Checkout</h2>
+        <p className="text-text-secondary">Order Summary: ${cartPrice}.00</p>
       </div>
-      <h1 className="text-center text-4xl font-semibold">
+      <h1 className="px-6 pt-12 text-center text-4xl font-semibold tracking-[-0.02em] text-text md:text-5xl">
         Review and place your order.
       </h1>
-      <div className="mx-auto flex max-w-[1000px] items-start justify-center gap-16 pb-16 max-[900px]:flex-col-reverse max-[900px]:items-center">
+      <div className="mx-auto flex max-w-[1000px] items-start justify-center gap-16 px-6 pb-16 pt-12 max-[900px]:flex-col-reverse max-[900px]:items-center md:px-8">
         <form
-          className="flex w-full max-w-[500px] flex-col gap-6 p-8"
+          className="flex w-full max-w-[500px] flex-col gap-6"
           onSubmit={handleSubmit}
         >
-          <h3 className="mt-4 text-[1.1rem] font-semibold first:mt-0">
+          <h3 className="mt-4 text-[1.1rem] font-semibold text-text first:mt-0">
             Contact
           </h3>
           <FormField
@@ -119,7 +119,7 @@ export const Checkout = () => {
             onChange={(e) => setPhone(e.target.value)}
           />
 
-          <h3 className="mt-4 text-[1.1rem] font-semibold first:mt-0">
+          <h3 className="mt-4 text-[1.1rem] font-semibold text-text first:mt-0">
             Shipping address
           </h3>
           <FormField
@@ -155,7 +155,7 @@ export const Checkout = () => {
             />
           </div>
 
-          <h3 className="mt-4 text-[1.1rem] font-semibold first:mt-0">
+          <h3 className="mt-4 text-[1.1rem] font-semibold text-text first:mt-0">
             Payment
           </h3>
           <FormField
@@ -202,13 +202,13 @@ export const Checkout = () => {
             />
           </div>
 
-          <button className="h-[45px] cursor-pointer rounded-lg border-none bg-text text-base text-white transition-colors duration-300 hover:bg-[#424245]">
+          <button className="h-[48px] cursor-pointer rounded-full border-none bg-text text-base font-medium text-white transition-colors duration-300 hover:bg-[#424245]">
             Place Order — ${cartPrice}.00
           </button>
         </form>
 
-        <div className="mt-8 w-full max-w-[340px] rounded-xl bg-surface p-6 max-[900px]:mt-0">
-          <h3 className="text-[1.1rem] font-semibold">In your bag</h3>
+        <div className="mt-8 w-full max-w-[340px] rounded-3xl border border-divider bg-surface p-6 shadow-card max-[900px]:mt-0">
+          <h3 className="text-[1.1rem] font-semibold text-text">In your bag</h3>
           <ul className="mb-6 flex flex-col gap-4">
             {cart.map((product) => (
               <li
