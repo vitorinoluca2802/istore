@@ -32,20 +32,20 @@ const columns = [
 
 export const Footer = () => {
   return (
-    <footer className="border-t border-divider bg-surface">
-      <div className="mx-auto max-w-[1000px] px-8 py-12">
-        <div className="grid grid-cols-2 gap-8 min-[600px]:grid-cols-4">
+    <footer className="border-t border-divider bg-surface-secondary">
+      <div className="mx-auto max-w-[1100px] px-6 py-16 md:px-8">
+        <div className="grid grid-cols-2 gap-10 min-[600px]:grid-cols-4">
           {columns.map((column) => (
             <div key={column.title}>
-              <h3 className="mb-3 text-[13px] font-semibold text-text">
+              <h3 className="mb-4 text-[13px] font-semibold text-text">
                 {column.title}
               </h3>
-              <ul className="flex flex-col gap-2">
+              <ul className="flex flex-col gap-2.5">
                 {column.links.map((link) => (
                   <li key={link.label}>
                     <Link
                       to={link.to}
-                      className="text-[13px] text-text-secondary no-underline hover:underline"
+                      className="text-[13px] text-text-secondary no-underline transition-colors duration-200 hover:text-link hover:underline"
                     >
                       {link.label}
                     </Link>
@@ -55,7 +55,7 @@ export const Footer = () => {
             </div>
           ))}
           <div>
-            <h3 className="mb-3 text-[13px] font-semibold text-text">
+            <h3 className="mb-4 text-[13px] font-semibold text-text">
               About iStore
             </h3>
             <p className="text-[13px] leading-relaxed text-text-secondary">
@@ -65,7 +65,7 @@ export const Footer = () => {
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col items-center gap-3 border-t border-divider pt-6 text-center min-[600px]:flex-row min-[600px]:justify-between min-[600px]:text-left">
+        <div className="mt-12 flex flex-col items-center gap-3 border-t border-divider pt-6 text-center min-[600px]:flex-row min-[600px]:justify-between min-[600px]:text-left">
           <p className="text-xs text-text-secondary">
             © 2023 iStore by{" "}
             <a

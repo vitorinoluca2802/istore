@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import chevronRight from "../../assets/chevron-right.png";
 import { ColorSwatches } from "../ColorSwatches/ColorSwatches";
+import { Button } from "../Button/Button";
 import { deviceImageUrl, categoryFallbackImage } from "../../data/products";
 
 export const ProductCard = ({ product, info }) => {
@@ -21,14 +21,14 @@ export const ProductCard = ({ product, info }) => {
   };
 
   return (
-    <div className="mx-auto flex w-full max-w-[320px] flex-col items-center justify-center">
-      <div className="mb-8 flex min-h-[450px] flex-col justify-end text-center">
+    <div className="group mx-auto flex w-full max-w-[340px] flex-col rounded-3xl border border-divider bg-white p-6 text-center transition-all duration-300 hover:-translate-y-1 hover:border-transparent hover:shadow-card-hover">
+      <div className="flex flex-1 flex-col justify-end">
         <div
-          className="relative mx-auto inline-block rounded-[20px] p-[22px] before:absolute before:inset-0 before:z-0 before:rounded-full before:opacity-[0.55] before:transition-[background] before:duration-[250ms] before:content-[''] before:[background:radial-gradient(circle,var(--color-tint,transparent)_0%,transparent_70%)]"
+          className="relative mx-auto inline-block overflow-hidden rounded-[20px] p-[22px] before:absolute before:inset-0 before:z-0 before:rounded-full before:opacity-[0.55] before:transition-[background] before:duration-[250ms] before:content-[''] before:[background:radial-gradient(circle,var(--color-tint,transparent)_0%,transparent_70%)]"
           style={{ "--color-tint": selectedHex }}
         >
           <img
-            className="relative z-[1] mx-auto block max-h-[220px] max-w-[220px]"
+            className="relative z-[1] mx-auto block max-h-[220px] max-w-[220px] transition-transform duration-300 group-hover:scale-105"
             src={imageSrc}
             alt={product.title}
             onError={(event) => {
@@ -37,23 +37,23 @@ export const ProductCard = ({ product, info }) => {
             }}
           />
         </div>
-        <strong className="mt-4 text-2xl font-semibold text-text">
+        <strong className="mt-4 text-xl font-semibold tracking-[-0.01em] text-text">
           {product.title}
         </strong>
         {product.subtitle ? (
-          <span className="mx-auto mt-[7px] flex justify-center">
+          <span className="mx-auto mt-1 flex justify-center text-sm text-text-secondary">
             {product.subtitle}
           </span>
         ) : (
           ""
         )}
-        <p className="my-5 mb-3 text-sm font-normal tracking-[-0.016em] leading-[1.4285914286]">
+        <p className="my-4 text-sm font-normal tracking-[-0.016em] text-text-secondary">
           {product.category == "accessories"
             ? `$${product.price}.00`
             : `From $${product.price}*`}
         </p>
         {product.colors ? (
-          <div className="mx-auto mb-4 max-w-[220px]">
+          <div className="mx-auto mb-5 max-w-[220px]">
             <ColorSwatches
               colors={product.colors}
               selected={selectedColor}
@@ -63,43 +63,34 @@ export const ProductCard = ({ product, info }) => {
         ) : (
           ""
         )}
-        <div className="flex flex-col items-center gap-[15px]">
-          <button
-            onClick={handleButton}
-            className="h-6 w-[45px] cursor-pointer rounded-full border-none bg-link px-[11px] py-1 text-xs text-white hover:bg-link-hover"
-          >
+        <div className="flex flex-col items-center gap-3">
+          <Button onClick={handleButton} variant="filled" className="!px-6 !py-2 !text-xs">
             Buy
-          </button>
-          <button
-            onClick={handleButton}
-            className="ml-2.5 flex cursor-pointer items-center justify-center gap-[5px] rounded-full border-none bg-transparent px-[11px] py-1 text-sm text-link hover:underline"
-          >
+          </Button>
+          <Button onClick={handleButton} variant="text" chevron>
             Learn more
-            <img src={chevronRight} alt="arrow right" />
-          </button>
+          </Button>
         </div>
       </div>
       {info == true ? (
-        <div className="w-4/5 border-b border-divider"></div>
+        <div className="mx-auto mt-6 w-4/5 border-b border-divider"></div>
       ) : (
         ""
       )}
 
       {product.info && info ? (
-        <div>
-          <ul>
-            {product.info.map((infoItem, index) => {
-              return (
-                <li
-                  key={index}
-                  className="my-[30px] text-center text-sm text-text-secondary"
-                >
-                  {infoItem}
-                </li>
-              );
-            })}
-          </ul>
-        </div>
+        <ul>
+          {product.info.map((infoItem, index) => {
+            return (
+              <li
+                key={index}
+                className="my-[26px] text-center text-sm text-text-secondary"
+              >
+                {infoItem}
+              </li>
+            );
+          })}
+        </ul>
       ) : (
         ""
       )}

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Reveal } from "../components/Reveal/Reveal";
 
 const faqs = [
   {
@@ -70,25 +71,30 @@ const FaqItem = ({ question, answer }) => {
 
 export const Support = () => {
   return (
-    <div className="mx-auto max-w-[800px] px-8 pb-24 pt-24">
-      <h1 className="text-center text-5xl font-semibold text-text">
-        How can we help?
-      </h1>
-      <p className="mx-auto mt-4 max-w-[500px] text-center text-lg text-text-secondary">
-        Find answers to common questions, or get in touch with our team.
-      </p>
+    <div className="mx-auto max-w-[800px] px-6 pb-24 pt-32 md:px-8 md:pt-40">
+      <Reveal>
+        <p className="text-center text-sm font-semibold uppercase tracking-[0.08em] text-text-secondary">
+          Support
+        </p>
+        <h1 className="mt-2 text-center text-5xl font-semibold tracking-[-0.02em] text-text">
+          How can we help?
+        </h1>
+        <p className="mx-auto mt-4 max-w-[500px] text-center text-lg text-text-secondary">
+          Find answers to common questions, or get in touch with our team.
+        </p>
+      </Reveal>
 
       <div className="mt-16 grid grid-cols-1 gap-5 min-[600px]:grid-cols-3">
         <a
           href="#"
-          className="rounded-2xl bg-surface p-6 text-center no-underline"
+          className="rounded-3xl border border-divider bg-surface-secondary p-6 text-center no-underline transition-all duration-300 hover:-translate-y-1 hover:border-transparent hover:shadow-card-hover"
         >
           <h3 className="font-semibold text-text">Chat with us</h3>
           <p className="mt-1 text-sm text-text-secondary">Available 24/7</p>
         </a>
         <a
           href="tel:+10000000000"
-          className="rounded-2xl bg-surface p-6 text-center no-underline"
+          className="rounded-3xl border border-divider bg-surface-secondary p-6 text-center no-underline transition-all duration-300 hover:-translate-y-1 hover:border-transparent hover:shadow-card-hover"
         >
           <h3 className="font-semibold text-text">Call us</h3>
           <p className="mt-1 text-sm text-text-secondary">
@@ -97,7 +103,7 @@ export const Support = () => {
         </a>
         <a
           href="mailto:support@istore.example"
-          className="rounded-2xl bg-surface p-6 text-center no-underline"
+          className="rounded-3xl border border-divider bg-surface-secondary p-6 text-center no-underline transition-all duration-300 hover:-translate-y-1 hover:border-transparent hover:shadow-card-hover"
         >
           <h3 className="font-semibold text-text">Email us</h3>
           <p className="mt-1 text-sm text-text-secondary">
@@ -106,7 +112,7 @@ export const Support = () => {
         </a>
       </div>
 
-      <h2 className="mb-2 mt-16 text-2xl font-semibold text-text">
+      <h2 className="mb-2 mt-16 text-2xl font-semibold tracking-[-0.01em] text-text">
         Frequently asked questions
       </h2>
       <div>

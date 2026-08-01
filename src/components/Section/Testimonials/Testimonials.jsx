@@ -25,30 +25,37 @@ const Star = () => (
   </svg>
 );
 
+import { Reveal } from "../../Reveal/Reveal";
+
 export const Testimonials = () => {
   return (
-    <section className="mx-auto max-w-[1000px] px-8 py-16">
-      <h2 className="mb-10 text-center text-4xl font-semibold text-text">
-        Loved by our customers
-      </h2>
-      <div className="grid grid-cols-1 gap-6 min-[900px]:grid-cols-3">
-        {testimonials.map((testimonial) => (
-          <div
-            key={testimonial.name}
-            className="rounded-2xl bg-surface p-6 text-left"
-          >
-            <div className="mb-3 flex gap-1">
-              {Array.from({ length: 5 }).map((_, index) => (
-                <Star key={index} />
-              ))}
+    <section className="mx-auto max-w-[1100px] px-6 py-20 md:px-8">
+      <Reveal>
+        <p className="text-center text-sm font-semibold uppercase tracking-[0.08em] text-text-secondary">
+          Testimonials
+        </p>
+        <h2 className="mb-12 mt-2 text-center text-4xl font-semibold tracking-[-0.02em] text-text">
+          Loved by our customers
+        </h2>
+      </Reveal>
+      <div className="grid grid-cols-1 gap-5 min-[900px]:grid-cols-3">
+        {testimonials.map((testimonial, index) => (
+          <Reveal key={testimonial.name} delay={index * 80}>
+            <div className="flex h-full flex-col rounded-3xl border border-divider bg-surface-secondary p-8 text-left transition-all duration-300 hover:-translate-y-1 hover:shadow-card-hover">
+              <span className="text-4xl leading-none text-link/30">“</span>
+              <div className="mt-2 flex gap-1">
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <Star key={i} />
+                ))}
+              </div>
+              <p className="mt-3 flex-1 text-[15px] leading-relaxed text-text">
+                {testimonial.quote}
+              </p>
+              <p className="mt-6 text-sm font-semibold text-text-secondary">
+                {testimonial.name} · {testimonial.location}
+              </p>
             </div>
-            <p className="text-[15px] leading-relaxed text-text">
-              “{testimonial.quote}”
-            </p>
-            <p className="mt-4 text-sm font-semibold text-text-secondary">
-              {testimonial.name} · {testimonial.location}
-            </p>
-          </div>
+          </Reveal>
         ))}
       </div>
     </section>

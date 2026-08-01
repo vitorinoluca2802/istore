@@ -1,35 +1,34 @@
 import { useProducts } from "../../Hooks/useProducts";
 import { ProductCard } from "../../ProductCard/ProductCard";
-import loader from "../../../assets/loader.gif";
+import { Loader } from "../../Loader/Loader";
+import { Reveal } from "../../Reveal/Reveal";
 
 export const Products = () => {
-  const { products } = useProducts();
+  const { products, loading } = useProducts();
   return (
     <>
-      {products.length == 0 ? (
-        <div className="flex min-h-[50vh] items-center justify-center">
-          <img className="w-[50px]" src={loader} alt="" />
+      {loading ? (
+        <div className="relative min-h-[50vh]">
+          <Loader />
         </div>
       ) : (
-        <div className="mx-auto my-40 max-w-[1000px]">
-          <h2 className="mb-20 ml-20 text-5xl">
-            Store.{" "}
-            <span className="font-semibold text-text-secondary">
+        <section className="mx-auto max-w-[1200px] px-6 py-24 md:px-8">
+          <Reveal>
+            <p className="text-sm font-semibold uppercase tracking-[0.08em] text-text-secondary">
+              Store
+            </p>
+            <h2 className="mb-14 mt-2 text-4xl font-semibold tracking-[-0.02em] text-text md:text-5xl">
               The best way to buy the products you love.
-            </span>
-          </h2>
-          <div className="mx-auto grid max-w-[320px] grid-cols-1 items-start gap-5 min-[600px]:max-w-[1000px] min-[600px]:grid-cols-2 min-[900px]:grid-cols-3">
-            {products.map((product) => {
-              return (
-                <ProductCard
-                  key={product.title}
-                  product={product}
-                  info={false}
-                />
-              );
-            })}
+            </h2>
+          </Reveal>
+          <div className="mx-auto grid max-w-[340px] grid-cols-1 items-start gap-5 min-[600px]:max-w-[1000px] min-[600px]:grid-cols-2 min-[900px]:max-w-none min-[900px]:grid-cols-3">
+            {products.map((product, index) => (
+              <Reveal key={product.title} delay={(index % 3) * 80}>
+                <ProductCard product={product} info={false} />
+              </Reveal>
+            ))}
           </div>
-        </div>
+        </section>
       )}
     </>
   );

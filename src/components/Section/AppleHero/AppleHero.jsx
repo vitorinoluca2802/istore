@@ -1,54 +1,96 @@
 import { Link } from "react-router-dom";
-import appleLogo from "../../../assets/apple.svg";
-import iphoneBg from "../../../assets/iphone-14.jpg";
-import iphoneBgMobile from "../../../assets/iphone14-bg-mobile.jpg";
-import homepodBg from "../../../assets/homepod.jpg";
-import watchBg from "../../../assets/watch-series-8.jpg";
+import { products, deviceImageUrl, categoryFallbackImage } from "../../../data/products";
+import { Reveal } from "../../Reveal/Reveal";
+import { Button } from "../../Button/Button";
 
-const Wordmark = ({ children, className = "" }) => (
-  <div
-    className={`absolute left-1/2 flex -translate-x-1/2 items-center gap-2.5 ${className}`}
-  >
-    <img src={appleLogo} alt="" className="h-[26px] w-[26px]" />
-    <span className="text-2xl font-semibold text-white">{children}</span>
-  </div>
-);
+const findProduct = (title) => products.find((product) => product.title === title);
+
+const promos = [
+  {
+    product: findProduct("iPhone 17 Pro"),
+    kicker: "iPhone 17 Pro",
+    headline: "A total powerhouse.",
+    gradient: "from-[#2b2b2e] to-[#1c1c1e]",
+    size: "large",
+  },
+  {
+    product: findProduct("HomePod"),
+    kicker: "HomePod",
+    headline: "Room-filling sound.",
+    gradient: "from-[#274b61] to-[#173142]",
+    size: "small",
+  },
+  {
+    product: findProduct("Apple Watch Series 11"),
+    kicker: "Apple Watch Series 11",
+    headline: "A whole new thin.",
+    gradient: "from-[#3a3a3c] to-[#1c1c1e]",
+    size: "small",
+  },
+];
+
+const PromoCard = ({ promo }) => {
+  const { product, kicker, headline, gradient, size } = promo;
+  if (!product) return null;
+
+  const slug = product.title.replace(/\s+/g, "-").toLowerCase();
+  const colorName = product.colors?.[0]?.name;
+  const imageSrc = deviceImageUrl(product.imageKey, colorName);
+
+  return (
+    <Link
+      to={`/shop/buy-${product.category}/${slug}`}
+      className={`group relative flex overflow-hidden rounded-[28px] bg-gradient-to-b ${gradient} ${
+        size === "large"
+          ? "min-h-[420px] flex-col justify-between p-10 md:p-14"
+          : "min-h-[340px] flex-col justify-between p-8"
+      }`}
+    >
+      <div className="relative z-[1] text-center text-white">
+        <p className="text-xs font-semibold uppercase tracking-[0.08em] text-white/60">
+          {kicker}
+        </p>
+        <h3
+          className={`mt-2 font-semibold tracking-[-0.02em] ${
+            size === "large" ? "text-4xl md:text-5xl" : "text-2xl md:text-3xl"
+          }`}
+        >
+          {headline}
+        </h3>
+        <div className="mt-4">
+          <Button variant="text" chevron className="!text-white mx-auto hover:!text-white/70">
+            Learn more
+          </Button>
+        </div>
+      </div>
+      <img
+        src={imageSrc}
+        alt={product.title}
+        onError={(event) => {
+          event.currentTarget.onerror = null;
+          event.currentTarget.src = categoryFallbackImage[product.category];
+        }}
+        className={`relative z-[1] mx-auto object-contain transition-transform duration-500 ease-out group-hover:scale-105 ${
+          size === "large" ? "max-h-[260px]" : "max-h-[180px]"
+        }`}
+      />
+    </Link>
+  );
+};
 
 const AppleHero = () => {
   return (
-    <>
-      <Link to="/shop/buy-iphone/iphone-17-pro">
-        <div className="relative h-[50svh] bg-black">
-          <div
-            className="absolute inset-0 hidden bg-black bg-contain bg-bottom bg-no-repeat md:block"
-            style={{ backgroundImage: `url(${iphoneBg})` }}
-          />
-          <div
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat md:hidden"
-            style={{ backgroundImage: `url(${iphoneBgMobile})` }}
-          />
-          <Wordmark className="top-[5vh]">iPhone 17 Pro</Wordmark>
+    <section className="mx-auto max-w-[1200px] px-6 py-6 md:px-8">
+      <Reveal>
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
+          <div className="md:row-span-2">
+            <PromoCard promo={promos[0]} />
+          </div>
+          <PromoCard promo={promos[1]} />
+          <PromoCard promo={promos[2]} />
         </div>
-      </Link>
-      <div className="mt-[5px] flex h-[40vh] flex-wrap items-stretch justify-center gap-[5px] max-[600px]:h-[50vh] max-[600px]:flex-col">
-        <Link to="/shop/buy-accessories/homepod" className="h-full flex-1">
-          <div
-            className="relative h-full bg-black bg-contain bg-bottom bg-no-repeat max-[600px]:bg-cover max-[600px]:bg-center"
-            style={{ backgroundImage: `url(${homepodBg})` }}
-          >
-            <Wordmark className="top-[5vh]">HomePod</Wordmark>
-          </div>
-        </Link>
-        <Link to="/shop/buy-watch/apple-watch-series-10" className="h-full flex-1">
-          <div
-            className="relative h-full bg-black bg-bottom bg-no-repeat bg-[length:130%] md:bg-[length:110%] lg:bg-[length:80%] xl:bg-[length:60%] max-[600px]:bg-cover max-[600px]:bg-top"
-            style={{ backgroundImage: `url(${watchBg})` }}
-          >
-            <Wordmark className="top-[3vh]">Watch Series 10</Wordmark>
-          </div>
-        </Link>
-      </div>
-    </>
+      </Reveal>
+    </section>
   );
 };
 
