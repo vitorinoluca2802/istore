@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import "./Order.css";
-import loader from "../../assets/loader.gif";
+import { Loader } from "../Loader/Loader";
 
 export const Order = () => {
   const [orderId, setOrderId] = useState(null);
@@ -16,18 +15,21 @@ export const Order = () => {
   return (
     <>
       {orderId == null ? (
-        <div className="loader-container">
-          <img className="loader" src={loader} alt="" />
-        </div>
+        <Loader />
       ) : (
-        <div className="order-container">
-          <div className="order-content">
-            <h2 className="order-title">Order Confirmation</h2>
-            <p className="order-info">
-              Your order with ID: <span className="order-id">{orderId}</span>{" "}
-              has been successfully placed.
+        <div className="flex h-[90vh] items-center justify-center">
+          <div className="mx-auto max-w-[400px] rounded-[18px] bg-surface px-8 py-10 text-center">
+            <h2 className="mb-2.5 text-2xl font-semibold">
+              Order Confirmation
+            </h2>
+            <p className="mb-5 text-lg text-text-secondary">
+              Your order with ID:{" "}
+              <span className="font-semibold text-text">{orderId}</span> has
+              been successfully placed.
             </p>
-            <p className="order-message">Thank you for your purchase!</p>
+            <p className="text-lg text-text-secondary">
+              Thank you for your purchase!
+            </p>
           </div>
         </div>
       )}

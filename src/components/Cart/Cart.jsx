@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { CartContext } from "../../context/CartContext";
 import { Link } from "react-router-dom";
 import { categoryFallbackImage } from "../../data/products";
-import "./Cart.css";
 
 export const Cart = () => {
   const navigate = useNavigate();
@@ -23,34 +22,42 @@ export const Cart = () => {
   };
 
   return (
-    <div className="cart-container">
+    <div className="flex min-h-[90svh] flex-col items-center justify-center p-8">
       {cart.length === 0 ? (
-        <div className="empty-cart">
-          <h1 className="empty-title">Your Bag is empty</h1>
-          <Link to="/store" className="empty-link">
+        <div className="flex h-[60vh] flex-col items-center justify-center">
+          <h1 className="mb-4 text-3xl font-semibold">Your Bag is empty</h1>
+          <Link to="/store" className="text-link-hover no-underline">
             Go to Store
           </Link>
         </div>
       ) : (
-        <div className="bag-container">
-          <div className="bag-checkout">
-            <h1 className="bag-title">Your bag total is ${cartPrice}.00</h1>
-            <p className="bag-subtitle">Free delivery and free returns.</p>
-            <Link to="/store" className="bag-continue">
+        <div className="mb-8 flex w-full max-w-[900px] flex-col items-center p-8">
+          <div className="text-center">
+            <h1 className="mb-4 text-3xl font-semibold">
+              Your bag total is ${cartPrice}.00
+            </h1>
+            <p className="mb-4">Free delivery and free returns.</p>
+            <Link
+              to="/store"
+              className="mb-4 block text-link-hover no-underline"
+            >
               Continue Shopping
             </Link>
-            <button onClick={() => navigate("/checkout")} className="bag-buy">
+            <button
+              onClick={() => navigate("/checkout")}
+              className="mb-4 w-full max-w-[250px] cursor-pointer rounded-[10px] border-none bg-link px-4 py-2 text-[17px] font-normal text-white transition-colors duration-200 hover:bg-link-hover"
+            >
               Checkout
             </button>
           </div>
-          <div className="bag-products">
+          <div className="w-full">
             {cart.map((product) => (
               <div
                 key={`${product.title}-${product.color}`}
-                className="bag-product"
+                className="flex max-w-[900px] items-center justify-between border-b border-divider p-8 max-md:flex-col max-md:gap-4"
               >
                 <img
-                  className="bag-image"
+                  className="mr-4 w-[100px] max-md:mx-auto max-md:mr-0"
                   src={product.image}
                   alt=""
                   onError={(event) => {
@@ -59,20 +66,24 @@ export const Cart = () => {
                       categoryFallbackImage[product.category];
                   }}
                 />
-                <div className="bag-info">
-                  <div className="bag-info-title-group">
-                    <strong className="bag-info-title">{product.title}</strong>
+                <div className="flex flex-grow items-center justify-between max-md:flex-col">
+                  <div className="flex w-[200px] flex-col max-md:mb-2 max-md:w-auto max-md:items-center max-md:text-center">
+                    <strong className="text-xl font-semibold">
+                      {product.title}
+                    </strong>
                     {product.color ? (
-                      <span className="bag-info-color">{product.color}</span>
+                      <span className="text-sm text-text-secondary">
+                        {product.color}
+                      </span>
                     ) : (
                       ""
                     )}
                   </div>
                   <span>{product.quantity}x</span>
-                  <div className="price-remove">
+                  <div className="flex flex-col items-end max-md:mt-4 max-md:items-center max-md:gap-2">
                     <strong>${product.price * product.quantity}</strong>
                     <button
-                      className="remove"
+                      className="cursor-pointer border-none bg-none text-base text-link-hover"
                       onClick={() => removeFromCart(product.title, product.color)}
                     >
                       Remove

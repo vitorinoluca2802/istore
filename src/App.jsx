@@ -46,9 +46,13 @@ export const App = () => {
               <Route
                 path="*"
                 element={
-                  <div className="error404">
-                    <h1>Error 404 not found</h1>
-                    <Link to="/">Go Home</Link>
+                  <div className="flex h-[90vh] flex-col items-center justify-center gap-4">
+                    <h1 className="text-3xl font-semibold">
+                      Error 404 not found
+                    </h1>
+                    <Link to="/" className="text-link no-underline hover:underline">
+                      Go Home
+                    </Link>
                   </div>
                 }
               />

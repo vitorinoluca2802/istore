@@ -41,8 +41,14 @@ Single `BrowserRouter` with routes for: `/` (Landing), `/category/:categoryId` (
 
 ### Color swatches
 
-- `ColorSwatches` (`src/components/ColorSwatches/ColorSwatches.jsx`) is a shared, presentation-only component (`colors`, `selected`, `onSelect`, `size` props) used by both `ProductCard` (small swatches, local `selectedColor` state, default = first color) and `ItemDetailContainer` (large swatches + a "Color — {name}" label). Selecting a swatch changes the actual photo (`deviceImageUrl` is re-evaluated with the new color) and also updates a CSS custom property (`--color-tint`) consumed by a `::before` radial-gradient behind the product photo (see `.product-img-backdrop` / `.product-detail-image-backdrop`) as an ambient-light accent — the backdrop container needs real padding around the `<img>` for the tint to be visible past the photo's opaque background, it isn't just decorative padding.
+- `ColorSwatches` (`src/components/ColorSwatches/ColorSwatches.jsx`) is a shared, presentation-only component (`colors`, `selected`, `onSelect`, `size` props) used by both `ProductCard` (small swatches, local `selectedColor` state, default = first color) and `ItemDetailContainer` (large swatches + a "Color — {name}" label). Selecting a swatch changes the actual photo (`deviceImageUrl` is re-evaluated with the new color) and also sets an inline `--color-tint` CSS custom property consumed by a Tailwind `before:` arbitrary-property radial-gradient behind the product photo (search for `--color-tint` in `ProductCard.jsx`/`ItemDetailContainer.jsx`) as an ambient-light accent — the backdrop wrapper needs real padding around the `<img>` for the tint to be visible past the photo's opaque background, it isn't just decorative padding.
 - The selected color rides along into the cart: `ItemDetailContainer.addCart` attaches `color: selectedColor` and a resolved `image` URL (snapshotted at add-time, since cart items don't re-render with live color state) to the cart item. Because of this, cart items are no longer unique by `title` alone — `addItemToCart`'s merge check and `Cart.removeFromCart` both key on `title` **and** `color` together, so two colorways of the same product show as separate bag lines instead of merging or cross-deleting each other.
+- `ItemDetailContainer` also renders a color-thumbnail gallery (`.product-detail-gallery`) below the main photo — one real thumbnail per color (same `deviceImageUrl` helper) — as an alternate way to switch `selectedColor` besides the swatches.
+
+### Product detail extras
+
+- `ItemDetailContainer` renders a "You might also like" section (`.product-related`) below the highlights: up to 3 other products from the same category (`products.filter(...).slice(0, 3)`), rendered as `ProductCard`s with `info={false}`. Purely derived from the existing catalog, no separate "related products" data.
+- `ItemListContainer` shows a one-line marketing blurb per category from `categoryDescription` (`src/data/products.js`) under the H1.
 
 ### Cart state: Context + localStorage dual-write
 
@@ -50,12 +56,23 @@ Single `BrowserRouter` with routes for: `/` (Landing), `/category/:categoryId` (
 - There is no cart reducer/service — every component that mutates the cart (`ItemDetailContainer.addCart`, `Cart.removeFromCart`, `Checkout.handleSubmit`) manually reads/writes `localStorage["cart"]` **and** calls `setCart` in the same function. When adding new cart-mutating logic, keep both in sync (update `localStorage` and call `setCart`) or state will drift from persisted storage on reload.
 - Cart items are cart-shaped product objects with an added `quantity` field (and `color` when the product has color options); items are keyed/deduped by `title` + `color` together (not a dedicated ID), so product titles must stay unique within the catalog.
 
+### Checkout form
+
+`Checkout.jsx` is a single-page form (Contact / Shipping address / Payment sections) plus an itemized order-summary sidebar built straight from `cart`. None of it is real: there is no payment gateway, no address validation service, and no server round-trip — card number/expiry/CVV/ZIP just use HTML `pattern` attributes for shape validation (e.g. `pattern="[0-9]{4,10}"` for ZIP), the same way the pre-existing email-match check works. On submit it behaves exactly as before: clear the cart and hand off to `Order.jsx`.
+
 ### URL slug convention
 
 Product detail/search links are built by slugifying the title: `product.title.replace(/\s+/g, "-").toLowerCase()`, e.g. `/shop/buy-{category}/{slug}`. This same transform must be replicated wherever a product is matched back out of a route param (see `ItemDetailContainer`), since there's no stored slug field.
 
 ### Component conventions
 
-- Feature components live under `src/components/<Name>/<Name>.jsx` paired with a co-located `<Name>.css` (imported directly in the component, no CSS modules). Follow this pairing for new components.
-- Top-level routed pages live in `src/pages/` and compose components from `src/components/Section/*` and elsewhere.
-- Design tokens (brand colors, font stack) are defined as CSS custom properties in `src/index.css` (`--color-text`, `--color-link`, `--color-divider`, `--color-surface`, `--font-sans`, etc.) and reused across component stylesheets — prefer these over hardcoding new color/font values.
+- Feature components live under `src/components/<Name>/<Name>.jsx`. There are no per-component CSS files — all styling is Tailwind utility classes directly in JSX (see below). Top-level routed pages live in `src/pages/` and compose components from `src/components/Section/*` and elsewhere.
+- `Loader` (`src/components/Loader/Loader.jsx`) is the shared full-screen loading spinner, reused by `ItemListContainer`, `ItemDetailContainer`, and `Order` — don't reintroduce a one-off inline loader block, use this component.
+
+### Styling: Tailwind CSS
+
+- Styling is Tailwind CSS (config in `tailwind.config.js`, PostCSS in `postcss.config.js`), applied entirely via utility classes in `className` — there are no component `.css` files and no CSS modules. `src/index.css` is just the three `@tailwind` directives plus a `@layer base` rule for `body`.
+- Brand tokens are Tailwind theme extensions, not raw CSS custom properties: `text`, `text-secondary`, `link`, `link-hover`, `divider`, `surface` under `theme.extend.colors`, and the Apple system-font stack under `theme.extend.fontFamily.sans` (so `text-text`, `bg-surface`, `text-link`, `font-sans`, etc. are real utility classes). Prefer these over hardcoding new color/font values with arbitrary syntax.
+- A few genuinely dynamic values that can't be static utility classes stay as **inline `style`**, not classes: the `--color-tint` CSS custom property (set per-render from the selected color's hex, consumed by a `before:[background:radial-gradient(...)]` arbitrary-value utility) and `backgroundImage: url(...)` in `AppleHero.jsx` (Tailwind can't resolve a bundler-imported asset reference inside an arbitrary-value className).
+- Several layouts intentionally use Tailwind's `max-md:`/`max-[900px]:`/`min-[600px]:` arbitrary-breakpoint variants instead of the default mobile-first `sm:`/`md:`/`lg:` ones, to exactly match specific pixel breakpoints the app already depended on (e.g. the 3-column-grid-that-left-aligns-incomplete-rows pattern used by `ItemListContainer`, `Products`, `Search`, and the "You might also like" grid all use `grid-cols-1 min-[600px]:grid-cols-2 min-[900px]:grid-cols-3` — don't swap that for `sm:`/`md:` without checking it still matches at those exact widths).
+- **Watch out for Tailwind Preflight resetting bare heading tags**: Preflight strips the browser's default bold/large sizing from unstyled `<h1>/<h2>/<h3>`, so any heading needs an explicit `text-*`/`font-*` class or it renders as plain body text — there's no "it just inherits the browser default" fallback like there was pre-Tailwind. Same goes for `<a>`/`<Link>` (Preflight makes them inherit color/no underline by default) and `<button>` (Preflight strips native button chrome) — always give them explicit classes.
