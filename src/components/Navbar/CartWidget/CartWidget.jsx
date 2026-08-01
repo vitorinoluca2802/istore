@@ -2,6 +2,7 @@ import bag from "../../../assets/bag.svg";
 import { useContext } from "react";
 import { CartContext } from "../../../context/CartContext";
 import { useNavigate } from "react-router-dom";
+
 export const CartWidget = () => {
   const { cart } = useContext(CartContext);
   const navigate = useNavigate();
@@ -12,9 +13,18 @@ export const CartWidget = () => {
     .map((item) => item.quantity)
     .reduce((total, quantity) => total + quantity, 0);
   return (
-    <button onClick={goCart} className="nav-button cartWidget">
+    <button
+      onClick={goCart}
+      className="relative flex cursor-pointer items-center justify-center border-none bg-none"
+    >
       <img src={bag} alt="" />
-      {totalQuantity == 0 ? "" : <span>{totalQuantity}</span>}
+      {totalQuantity == 0 ? (
+        ""
+      ) : (
+        <span className="absolute -bottom-[7px] -right-[5px] flex h-[15px] w-[15px] items-center justify-center rounded-full bg-white text-[0.6rem]">
+          {totalQuantity}
+        </span>
+      )}
     </button>
   );
 };

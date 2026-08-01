@@ -1,10 +1,9 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { ProductCard } from "../ProductCard/ProductCard";
-import loader from "../../assets/loader.gif";
+import { Loader } from "../Loader/Loader";
 import { useProducts } from "../Hooks/useProducts";
 import { categoryDescription } from "../../data/products";
-import "./ItemListContainer.css";
 
 const categories = ["Mac", "iPad", "iPhone", "Watch", "accessories"];
 
@@ -36,21 +35,23 @@ export const ItemListContainer = () => {
 
   return (
     <>
-      <h1 className="category-title">{generateTitle(filteredCategory)}</h1>
+      <h1 className="pb-2 pt-20 text-center text-6xl max-md:pb-8">
+        {generateTitle(filteredCategory)}
+      </h1>
       {categoryDescription[filteredCategory] ? (
-        <p className="category-description">
+        <p className="mx-auto mb-16 max-w-[600px] px-4 text-center text-xl text-text-secondary">
           {categoryDescription[filteredCategory]}
         </p>
       ) : (
         ""
       )}
-      <div className="item-list-container">
+      <div className="mx-auto grid w-full max-w-[320px] grid-cols-1 gap-5 min-[600px]:max-w-[1200px] min-[600px]:grid-cols-2 min-[900px]:grid-cols-3">
         {loading ? (
-          <div className="loader-container">
-            <img className="loader" src={loader} alt="" />
-          </div>
+          <Loader />
         ) : filteredProducts.length === 0 ? (
-          <p className="no-matches">No products found in this category yet.</p>
+          <p className="p-4 font-medium">
+            No products found in this category yet.
+          </p>
         ) : (
           filteredProducts.map((product) => (
             <ProductCard key={product.title} product={product} info={true} />

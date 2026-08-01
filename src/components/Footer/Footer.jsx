@@ -1,12 +1,16 @@
-import "./Footer.css";
-
 export const Footer = () => {
   return (
-    <footer className="footer__container">
-      <p className="footer-text">
-        © 2023 iStore by <a href="#">Luca Vitorino</a>
+    <footer className="max-w-[900px] mx-auto border-t border-divider p-6">
+      <p className="text-center text-xs leading-relaxed text-text-secondary">
+        © 2023 iStore by{" "}
+        <a href="#" className="text-text-secondary no-underline hover:underline">
+          Luca Vitorino
+        </a>
         <br />
-        See code <a href="#">here</a>
+        See code{" "}
+        <a href="#" className="text-text-secondary no-underline hover:underline">
+          here
+        </a>
       </p>
     </footer>
   );

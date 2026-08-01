@@ -45,26 +45,37 @@ export const SearchWidget = () => {
 
   return (
     <>
-      <div
+      {openSearch ? (
+        <div
+          onClick={handleSearch}
+          className="fixed left-0 top-0 z-[-1] h-full w-full bg-[#111111a1]"
+        ></div>
+      ) : (
+        ""
+      )}
+      <button
         onClick={handleSearch}
-        id={openSearch ? "overlay-active" : "overlay-inactive"}
-      ></div>
-      <button onClick={handleSearch} className="nav-button">
+        className="flex cursor-pointer items-center justify-center border-none bg-none"
+      >
         <img src={search} alt="" />
       </button>
       <div
         className={
-          openSearch ? "search-container" : "search-container searchInactive"
+          "fixed left-0 top-0 z-[-1] h-[40svh] w-full bg-[#111] transition-transform duration-500 max-md:h-[100svh] " +
+          (openSearch ? "" : "-translate-y-full")
         }
       >
-        <div className="search-content">
-          <form onSubmit={handleFormSubmit} className="search-form">
+        <div className="relative top-16 mx-auto flex w-[580px] flex-col max-md:top-0 max-md:h-auto max-md:w-full max-md:px-8 max-md:py-16">
+          <form
+            onSubmit={handleFormSubmit}
+            className="flex items-center justify-between"
+          >
             <div>
-              <button>
+              <button className="cursor-pointer border-none bg-none">
                 <img src={search} alt="" />
               </button>
               <input
-                className="search-input"
+                className="ml-2.5 w-[210px] border-none bg-none text-2xl font-semibold tracking-[0.009em] text-[#e8e8ed] outline-none"
                 type="text"
                 placeholder="Search istore.com"
                 value={searchValue}
@@ -72,24 +83,27 @@ export const SearchWidget = () => {
               />
             </div>
             {searchValue.length !== 0 ? (
-              <button className="clearSearch" onClick={clearInputValue}>
+              <button
+                className="flex h-min w-min cursor-pointer items-center justify-center rounded-full bg-[#8f8f8f] transition-colors duration-200 hover:bg-white"
+                onClick={clearInputValue}
+              >
                 <img src={x} alt="" />
               </button>
             ) : null}
           </form>
-          <p>Quick Links</p>
+          <p className="font-normal text-[rgb(134,134,139)]">Quick Links</p>
           {quickLinks.map((product) => {
             return (
               <Link
                 onClick={handleSearch}
                 key={product.title}
-                className="search-link"
+                className="text-xs font-medium text-white no-underline"
                 to={`/shop/buy-${product.category}/${product.title
                   .replace(/\s+/g, "-")
                   .toLowerCase()}`}
               >
-                <span>
-                  <img src={arrow} alt="" />
+                <span className="relative right-[5px] flex h-[25px] items-center leading-10 hover:bg-[#1d1d1f]">
+                  <img src={arrow} alt="" className="w-[25px]" />
                   {product.title}
                 </span>
               </Link>
