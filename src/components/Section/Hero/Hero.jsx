@@ -9,7 +9,7 @@ const Hero = () => {
         <img src={imacImage} alt="Hello" className="hero-image" />
         <h1>Say hello to the new iMac.</h1>
         <p>Experience the power and beauty of the all-new iMac.</p>
-        <Link to="/shop/buy-mac/imac">
+        <Link to="/shop/buy-mac/imac-8-core-gpu">
           <button className="hero-button">Buy iMac</button>
         </Link>
         <img src={imac24Image} alt="iMac 24" className="imac-image" />

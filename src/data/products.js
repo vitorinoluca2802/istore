@@ -5,16 +5,29 @@ import homepod from "../assets/homepod.jpg";
 
 export const products = [
   {
-    title: "iMac",
+    title: "iMac 8-Core GPU",
     subtitle: "Impressively big. Impossibly thin.",
     price: 1299,
     category: "Mac",
     image: imac,
     info: [
       "24-inch 4.5K Retina display",
-      "Apple M3 chip with 8-core CPU",
+      "Apple M3 chip with 8-core CPU and 8-core GPU",
       "1080p FaceTime HD camera",
       "Six-speaker sound system",
+    ],
+  },
+  {
+    title: "iMac 10-Core GPU",
+    subtitle: "Even more powerhouse.",
+    price: 1499,
+    category: "Mac",
+    image: imac,
+    info: [
+      "24-inch 4.5K Retina display",
+      "Apple M3 chip with 8-core CPU and 10-core GPU",
+      "1080p FaceTime HD camera",
+      "Two Thunderbolt / USB 4 ports plus two USB 3 ports",
     ],
   },
   {
@@ -31,6 +44,19 @@ export const products = [
     ],
   },
   {
+    title: "iPhone 14 Plus",
+    subtitle: "Big and beautiful.",
+    price: 899,
+    category: "iPhone",
+    image: iphone14,
+    info: [
+      "6.7-inch Super Retina XDR display",
+      "A15 Bionic chip",
+      "Advanced dual-camera system",
+      "The best battery life ever in an iPhone",
+    ],
+  },
+  {
     title: "iPhone 14 Pro",
     subtitle: "A total powerhouse.",
     price: 999,
@@ -38,6 +64,19 @@ export const products = [
     image: iphone14,
     info: [
       "Dynamic Island",
+      "48MP Main camera with quad-pixel sensor",
+      "Always-On display",
+      "A16 Bionic chip",
+    ],
+  },
+  {
+    title: "iPhone 14 Pro Max",
+    subtitle: "Bigger. And also a total powerhouse.",
+    price: 1099,
+    category: "iPhone",
+    image: iphone14,
+    info: [
+      "6.7-inch Dynamic Island display",
       "48MP Main camera with quad-pixel sensor",
       "Always-On display",
       "A16 Bionic chip",
@@ -54,6 +93,19 @@ export const products = [
       "Crash Detection",
       "Always-On Retina display",
       "18-hour battery life",
+    ],
+  },
+  {
+    title: "Apple Watch Series 8 (GPS + Cellular)",
+    subtitle: "Redesigned. Redefined. Now with cellular.",
+    price: 499,
+    category: "Watch",
+    image: watchSeries8,
+    info: [
+      "Advanced health sensors",
+      "Crash Detection",
+      "Always-On Retina display",
+      "Make calls and send texts without your iPhone nearby",
     ],
   },
   {
