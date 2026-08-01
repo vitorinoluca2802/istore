@@ -3,6 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useProducts } from "../Hooks/useProducts";
 import loader from "../../assets/loader.gif";
 import { CartContext } from "../../context/CartContext";
+import { ColorSwatches } from "../ColorSwatches/ColorSwatches";
 import "./ItemDetailContainer.css";
 
 export const ItemDetailContainer = () => {
@@ -11,6 +12,7 @@ export const ItemDetailContainer = () => {
   const { products } = useProducts();
   const { productName } = useParams();
   const [filteredProduct, setFilteredProduct] = useState(undefined);
+  const [selectedColor, setSelectedColor] = useState(undefined);
   const [appleCare, setAppleCare] = useState(false);
   const handleAppleCare = () => {
     setAppleCare(!appleCare);
@@ -23,13 +25,21 @@ export const ItemDetailContainer = () => {
         productName.toLowerCase()
     );
     setFilteredProduct(product ?? null);
+    setSelectedColor(product?.colors?.[0]?.name);
   }, [products, productName]);
 
+  const selectedHex = filteredProduct?.colors?.find(
+    (color) => color.name === selectedColor
+  )?.hex;
+
   const addItemToCart = (cart, item) => {
-    const existingItem = cart.find((cartItem) => cartItem.title === item.title);
+    const existingItem = cart.find(
+      (cartItem) =>
+        cartItem.title === item.title && cartItem.color === item.color
+    );
     if (existingItem) {
       return cart.map((cartItem) =>
-        cartItem.title === item.title
+        cartItem.title === item.title && cartItem.color === item.color
           ? { ...cartItem, quantity: cartItem.quantity + 1 }
           : cartItem
       );
@@ -39,7 +49,10 @@ export const ItemDetailContainer = () => {
 
   const addCart = () => {
     let updatedCart = JSON.parse(localStorage.getItem("cart")) || [];
-    updatedCart = addItemToCart(updatedCart, filteredProduct);
+    updatedCart = addItemToCart(updatedCart, {
+      ...filteredProduct,
+      color: selectedColor,
+    });
 
     if (appleCare) {
       updatedCart = addItemToCart(updatedCart, {
@@ -76,12 +89,30 @@ export const ItemDetailContainer = () => {
     <>
       <div className="product-detailshop-container">
           <div className="product-detail-image">
-            <img src={filteredProduct.image} alt="" />
+            <div
+              className="product-detail-image-backdrop"
+              style={{ "--color-tint": selectedHex }}
+            >
+              <img src={filteredProduct.image} alt="" />
+            </div>
           </div>
           <div className="product-detail-info-container">
             <div className="product-detail-info">
               <h1 className="buy-title">Buy {filteredProduct.title}</h1>
               <h2 className="buy-price">${filteredProduct.price}.00</h2>
+              {filteredProduct.colors ? (
+                <div className="product-detail-colors">
+                  <span className="subtitle">Color — {selectedColor}</span>
+                  <ColorSwatches
+                    colors={filteredProduct.colors}
+                    selected={selectedColor}
+                    onSelect={setSelectedColor}
+                    size="large"
+                  />
+                </div>
+              ) : (
+                ""
+              )}
               <div className="applecare">
                 <h2 className="applecare-title">Add AppleCare+</h2>
                 <div className="applecare-container">
@@ -165,6 +196,20 @@ export const ItemDetailContainer = () => {
             </div>
           </div>
         </div>
+        {filteredProduct.info ? (
+          <div className="product-highlights">
+            <h2 className="product-highlights-title">
+              {filteredProduct.title} highlights
+            </h2>
+            <ul className="product-highlights-list">
+              {filteredProduct.info.map((item, index) => (
+                <li key={index}>{item}</li>
+              ))}
+            </ul>
+          </div>
+        ) : (
+          ""
+        )}
     </>
   );
 };

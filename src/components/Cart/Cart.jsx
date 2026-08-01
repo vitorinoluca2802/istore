@@ -13,8 +13,10 @@ export const Cart = () => {
     cartPrice += product.price * product.quantity;
   });
 
-  const removeFromCart = (productId) => {
-    const updatedCart = cart.filter((product) => product.title !== productId);
+  const removeFromCart = (title, color) => {
+    const updatedCart = cart.filter(
+      (product) => !(product.title === title && product.color === color)
+    );
     setCart(updatedCart);
     localStorage.setItem("cart", JSON.stringify(updatedCart));
   };
@@ -42,16 +44,26 @@ export const Cart = () => {
           </div>
           <div className="bag-products">
             {cart.map((product) => (
-              <div key={product.title} className="bag-product">
+              <div
+                key={`${product.title}-${product.color}`}
+                className="bag-product"
+              >
                 <img className="bag-image" src={product.image} alt="" />
                 <div className="bag-info">
-                  <strong className="bag-info-title">{product.title}</strong>
+                  <div className="bag-info-title-group">
+                    <strong className="bag-info-title">{product.title}</strong>
+                    {product.color ? (
+                      <span className="bag-info-color">{product.color}</span>
+                    ) : (
+                      ""
+                    )}
+                  </div>
                   <span>{product.quantity}x</span>
                   <div className="price-remove">
                     <strong>${product.price * product.quantity}</strong>
                     <button
                       className="remove"
-                      onClick={() => removeFromCart(product.title)}
+                      onClick={() => removeFromCart(product.title, product.color)}
                     >
                       Remove
                     </button>
