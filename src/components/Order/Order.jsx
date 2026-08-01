@@ -1,31 +1,17 @@
 import { useEffect, useState } from "react";
-import { collection, addDoc } from "firebase/firestore";
-import { db } from "../../firebase";
 import "./Order.css";
 import loader from "../../assets/loader.gif";
 
-export const Order = ({ name, phone, email }) => {
+export const Order = () => {
   const [orderId, setOrderId] = useState(null);
+
   useEffect(() => {
-    const createOrder = async () => {
-      try {
-        const order = {
-          name,
-          phone,
-          email,
-          createdAt: new Date(),
-        };
+    const timeoutId = setTimeout(() => {
+      setOrderId(crypto.randomUUID());
+    }, 800);
 
-        const docRef = await addDoc(collection(db, "orders"), order);
-        console.log("Order created with ID: ", docRef.id);
-        setOrderId(docRef.id);
-      } catch (error) {
-        console.error("Error creating order: ", error);
-      }
-    };
-
-    createOrder();
-  }, [name, phone, email]);
+    return () => clearTimeout(timeoutId);
+  }, []);
 
   return (
     <>

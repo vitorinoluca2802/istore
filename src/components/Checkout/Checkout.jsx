@@ -50,7 +50,7 @@ export const Checkout = () => {
   };
 
   if (bought) {
-    return <Order name={name} phone={phone} email={email} />;
+    return <Order />;
   }
   return (
     <>

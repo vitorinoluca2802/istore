@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useFirebaseProducts } from "../Hooks/useFirebaseProductos";
+import { useProducts } from "../Hooks/useProducts";
 import loader from "../../assets/loader.gif";
 import { CartContext } from "../../context/CartContext";
 import "./ItemDetailContainer.css";
@@ -8,9 +8,9 @@ import "./ItemDetailContainer.css";
 export const ItemDetailContainer = () => {
   const { setCart } = useContext(CartContext);
   const navigate = useNavigate();
-  const { products } = useFirebaseProducts();
+  const { products } = useProducts();
   const { productName } = useParams();
-  const [filteredProduct, setFilteredProduct] = useState(null);
+  const [filteredProduct, setFilteredProduct] = useState(undefined);
   const [appleCare, setAppleCare] = useState(false);
   const handleAppleCare = () => {
     setAppleCare(!appleCare);
@@ -22,7 +22,7 @@ export const ItemDetailContainer = () => {
         product.title.toLowerCase().replace(/\s+/g, "-") ===
         productName.toLowerCase()
     );
-    setFilteredProduct(product);
+    setFilteredProduct(product ?? null);
   }, [products, productName]);
 
   const addItemToCart = (cart, item) => {
@@ -55,7 +55,7 @@ export const ItemDetailContainer = () => {
     navigate("/cart");
   };
 
-  if (filteredProduct == null) {
+  if (filteredProduct === undefined) {
     return (
       <div className="loader-container">
         <img className="loader" src={loader} alt="" />
@@ -63,14 +63,18 @@ export const ItemDetailContainer = () => {
     );
   }
 
+  if (filteredProduct === null) {
+    return (
+      <div className="error404">
+        <h1>Product not found</h1>
+        <Link to="/store">Go to Store</Link>
+      </div>
+    );
+  }
+
   return (
-    <h1>
-      {filteredProduct == null ? (
-        <div className="loader-container">
-          <img className="loader" src={loader} alt="" />
-        </div>
-      ) : (
-        <div className="product-detailshop-container">
+    <>
+      <div className="product-detailshop-container">
           <div className="product-detail-image">
             <img src={filteredProduct.image} alt="" />
           </div>
@@ -161,7 +165,6 @@ export const ItemDetailContainer = () => {
             </div>
           </div>
         </div>
-      )}
-    </h1>
+    </>
   );
 };

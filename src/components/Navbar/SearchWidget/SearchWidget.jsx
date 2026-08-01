@@ -3,14 +3,14 @@ import search from "../../../assets/search.svg";
 import arrow from "../../../assets/arrow-right.svg";
 import x from "../../../assets/x.svg";
 import { Link, useNavigate } from "react-router-dom";
-import { useFirebaseProducts } from "../../Hooks/useFirebaseProductos";
+import { useProducts } from "../../Hooks/useProducts";
 
 export const SearchWidget = () => {
   const [openSearch, setOpenSearch] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [quickLinks, setQuickLinks] = useState([]);
   const navigate = useNavigate();
-  const { products } = useFirebaseProducts();
+  const { products } = useProducts();
   useEffect(() => {
     if (products.length > 0) {
       const getRandomProducts = (arr, count) => {
