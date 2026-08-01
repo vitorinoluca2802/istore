@@ -6,6 +6,7 @@ import { ItemDetailContainer } from "./components/ItemDetailContainer/ItemDetail
 import { CartContext } from "./context/CartContext";
 import { useEffect, useState } from "react";
 import { Landing } from "./pages/Landing";
+import { Support } from "./pages/Support";
 import { Footer } from "./components/Footer/Footer";
 import { Cart } from "./components/Cart/Cart";
 import { Checkout } from "./components/Checkout/Checkout";
@@ -41,6 +42,7 @@ export const App = () => {
               />
               <Route path="/search/:productName" element={<Search />} />
               <Route path="/store" element={<Products />} />
+              <Route path="/support" element={<Support />} />
               <Route path="/cart" element={<Cart />} />
               <Route path="/checkout" element={<Checkout />} />
               <Route
@@ -57,8 +59,8 @@ export const App = () => {
                 }
               />
             </Routes>
+            <Footer />
           </BrowserRouter>
-          <Footer />
         </div>
       </CartContext.Provider>
     </>
