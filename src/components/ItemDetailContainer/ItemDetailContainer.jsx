@@ -4,6 +4,7 @@ import { useProducts } from "../Hooks/useProducts";
 import loader from "../../assets/loader.gif";
 import { CartContext } from "../../context/CartContext";
 import { ColorSwatches } from "../ColorSwatches/ColorSwatches";
+import { deviceImageUrl, categoryFallbackImage } from "../../data/products";
 import "./ItemDetailContainer.css";
 
 export const ItemDetailContainer = () => {
@@ -31,6 +32,9 @@ export const ItemDetailContainer = () => {
   const selectedHex = filteredProduct?.colors?.find(
     (color) => color.name === selectedColor
   )?.hex;
+  const imageSrc = filteredProduct
+    ? deviceImageUrl(filteredProduct.imageKey, selectedColor)
+    : undefined;
 
   const addItemToCart = (cart, item) => {
     const existingItem = cart.find(
@@ -52,13 +56,14 @@ export const ItemDetailContainer = () => {
     updatedCart = addItemToCart(updatedCart, {
       ...filteredProduct,
       color: selectedColor,
+      image: imageSrc,
     });
 
     if (appleCare) {
       updatedCart = addItemToCart(updatedCart, {
         title: `${filteredProduct.title} AppleCare+`,
         category: filteredProduct.category,
-        image: filteredProduct.image,
+        image: imageSrc,
         price: (filteredProduct.price * 10) / 100,
       });
     }
@@ -93,7 +98,15 @@ export const ItemDetailContainer = () => {
               className="product-detail-image-backdrop"
               style={{ "--color-tint": selectedHex }}
             >
-              <img src={filteredProduct.image} alt="" />
+              <img
+                src={imageSrc}
+                alt=""
+                onError={(event) => {
+                  event.currentTarget.onerror = null;
+                  event.currentTarget.src =
+                    categoryFallbackImage[filteredProduct.category];
+                }}
+              />
             </div>
           </div>
           <div className="product-detail-info-container">

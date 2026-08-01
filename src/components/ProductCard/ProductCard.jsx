@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import chevronRight from "../../assets/chevron-right.png";
 import { ColorSwatches } from "../ColorSwatches/ColorSwatches";
+import { deviceImageUrl, categoryFallbackImage } from "../../data/products";
 import "./ProductCard.css";
 
 export const ProductCard = ({ product, info }) => {
@@ -10,6 +11,7 @@ export const ProductCard = ({ product, info }) => {
   const selectedHex = product.colors?.find(
     (color) => color.name === selectedColor
   )?.hex;
+  const imageSrc = deviceImageUrl(product.imageKey, selectedColor);
 
   const handleButton = () => {
     navigate(
@@ -29,8 +31,12 @@ export const ProductCard = ({ product, info }) => {
           >
             <img
               className="product-img"
-              src={product.image}
+              src={imageSrc}
               alt={product.title}
+              onError={(event) => {
+                event.currentTarget.onerror = null;
+                event.currentTarget.src = categoryFallbackImage[product.category];
+              }}
             />
           </div>
           <strong className="product-title">{product.title}</strong>

@@ -2,6 +2,7 @@ import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { CartContext } from "../../context/CartContext";
 import { Link } from "react-router-dom";
+import { categoryFallbackImage } from "../../data/products";
 import "./Cart.css";
 
 export const Cart = () => {
@@ -48,7 +49,16 @@ export const Cart = () => {
                 key={`${product.title}-${product.color}`}
                 className="bag-product"
               >
-                <img className="bag-image" src={product.image} alt="" />
+                <img
+                  className="bag-image"
+                  src={product.image}
+                  alt=""
+                  onError={(event) => {
+                    event.currentTarget.onerror = null;
+                    event.currentTarget.src =
+                      categoryFallbackImage[product.category];
+                  }}
+                />
                 <div className="bag-info">
                   <div className="bag-info-title-group">
                     <strong className="bag-info-title">{product.title}</strong>
