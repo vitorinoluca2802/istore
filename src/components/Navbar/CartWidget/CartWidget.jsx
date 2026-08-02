@@ -16,12 +16,15 @@ export const CartWidget = () => {
     <button
       onClick={goCart}
       className="relative flex cursor-pointer items-center justify-center border-none bg-none"
+      aria-label={
+        totalQuantity === 0 ? "View bag" : `View bag, ${totalQuantity} items`
+      }
     >
       <img src={bag} alt="" />
       {totalQuantity == 0 ? (
         ""
       ) : (
-        <span className="absolute -bottom-[7px] -right-[5px] flex h-[15px] w-[15px] items-center justify-center rounded-full bg-white text-[0.6rem]">
+        <span className="absolute -bottom-[7px] -right-[5px] flex h-[15px] min-w-[15px] items-center justify-center rounded-full bg-white px-[3px] text-[0.6rem] text-text">
           {totalQuantity}
         </span>
       )}

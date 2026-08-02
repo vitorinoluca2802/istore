@@ -35,7 +35,11 @@ export const Newsletter = () => {
             onSubmit={handleSubmit}
             className="mx-auto mt-8 flex max-w-[420px] gap-2 max-[500px]:flex-col"
           >
+            <label htmlFor="newsletter-email" className="sr-only">
+              Email address
+            </label>
             <input
+              id="newsletter-email"
               required
               type="email"
               value={email}

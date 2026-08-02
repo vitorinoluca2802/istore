@@ -14,6 +14,7 @@ const Chevron = () => (
     height="13"
     viewBox="0 0 8 13"
     fill="none"
+    aria-hidden="true"
     className="transition-transform duration-200 group-hover:translate-x-0.5"
   >
     <path

@@ -40,6 +40,7 @@ const FaqItem = ({ question, answer }) => {
     <div className="border-b border-divider py-5">
       <button
         onClick={() => setOpen(!open)}
+        aria-expanded={open}
         className="flex w-full cursor-pointer items-center justify-between border-none bg-none text-left text-lg font-semibold text-text"
       >
         {question}
@@ -50,6 +51,7 @@ const FaqItem = ({ question, answer }) => {
           fill="none"
           stroke="currentColor"
           strokeWidth="2"
+          aria-hidden="true"
           className={
             "shrink-0 text-text-secondary transition-transform duration-200 " +
             (open ? "rotate-45" : "")

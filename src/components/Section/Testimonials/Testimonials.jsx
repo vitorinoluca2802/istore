@@ -20,7 +20,7 @@ const testimonials = [
 ];
 
 const Star = () => (
-  <svg width="16" height="16" viewBox="0 0 20 20" fill="#f5a623">
+  <svg width="16" height="16" viewBox="0 0 20 20" className="fill-text" aria-hidden="true">
     <path d="M10 1.5l2.6 5.6 6.1.7-4.5 4.2 1.2 6-5.4-3-5.4 3 1.2-6-4.5-4.2 6.1-.7z" />
   </svg>
 );

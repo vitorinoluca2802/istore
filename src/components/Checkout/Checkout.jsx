@@ -1,20 +1,27 @@
 import { useContext, useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 import { CartContext } from "../../context/CartContext";
 import { Order } from "../Order/Order";
 import { categoryFallbackImage } from "../../data/products";
 
-const FormField = ({ label, error, className = "", ...inputProps }) => (
-  <div className={`flex min-w-0 flex-1 flex-col-reverse ${className}`}>
-    <input
-      {...inputProps}
-      className={
-        "h-[45px] w-full rounded-lg border bg-transparent px-4 text-base transition-colors duration-300 focus:outline-none peer " +
-        (error ? "border-red-500" : "border-[#6e6e73] focus:border-link")
-      }
-    />
-    <label className="text-[#6e6e73] peer-focus:text-link">{label}</label>
-  </div>
-);
+const FormField = ({ label, error, className = "", ...inputProps }) => {
+  const id = `field-${label.replace(/\s+/g, "-").toLowerCase()}`;
+  return (
+    <div className={`flex min-w-0 flex-1 flex-col-reverse ${className}`}>
+      <input
+        {...inputProps}
+        id={id}
+        className={
+          "h-[45px] w-full rounded-lg border bg-transparent px-4 text-base transition-colors duration-300 focus:outline-none peer " +
+          (error ? "border-red-500" : "border-text-secondary focus:border-link")
+        }
+      />
+      <label htmlFor={id} className="text-text-secondary peer-focus:text-link">
+        {label}
+      </label>
+    </div>
+  );
+};
 
 export const Checkout = () => {
   const { cart, setCart } = useContext(CartContext);
@@ -65,6 +72,10 @@ export const Checkout = () => {
 
   if (bought) {
     return <Order />;
+  }
+
+  if (cart.length === 0) {
+    return <Navigate to="/cart" replace />;
   }
 
   return (

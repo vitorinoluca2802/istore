@@ -46,6 +46,7 @@ export const TrustBadges = () => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 className="text-link"
+                aria-hidden="true"
               >
                 {badge.icon}
               </svg>

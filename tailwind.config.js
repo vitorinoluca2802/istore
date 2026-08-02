@@ -5,7 +5,7 @@ export default {
     extend: {
       colors: {
         text: "#1d1d1f",
-        "text-secondary": "#86868b",
+        "text-secondary": "#6e6e73",
         link: "#0071e3",
         "link-hover": "#0077ed",
         divider: "#d2d2d7",

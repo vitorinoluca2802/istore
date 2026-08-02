@@ -1,16 +1,19 @@
-import { useState, useEffect } from "react";
-import search from "../../../assets/search.svg";
-import arrow from "../../../assets/arrow-right.svg";
-import x from "../../../assets/x.svg";
-import { Link, useNavigate } from "react-router-dom";
-import { useProducts } from "../../Hooks/useProducts";
-import { Button } from "../../Button/Button";
+import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
+import search from '../../../assets/search.svg';
+import arrow from '../../../assets/arrow-right.svg';
+import x from '../../../assets/x.svg';
+import close from '../../../assets/close.svg';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { useProducts } from '../../Hooks/useProducts';
+import { Button } from '../../Button/Button';
 
 export const SearchWidget = () => {
   const [openSearch, setOpenSearch] = useState(false);
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState('');
   const [quickLinks, setQuickLinks] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
   const { products } = useProducts();
   useEffect(() => {
     if (products.length > 0) {
@@ -23,6 +26,17 @@ export const SearchWidget = () => {
     }
   }, [products]);
 
+  useEffect(() => {
+    setOpenSearch(false);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    document.body.style.overflow = openSearch ? 'hidden' : '';
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [openSearch]);
+
   const handleSearch = () => {
     setOpenSearch(!openSearch);
   };
@@ -33,87 +47,99 @@ export const SearchWidget = () => {
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
-    if (searchValue !== "") {
+    if (searchValue !== '') {
       navigate(`/search/${searchValue}`);
       handleSearch();
-      setSearchValue("");
+      setSearchValue('');
     }
   };
 
   const clearInputValue = () => {
-    setSearchValue("");
+    setSearchValue('');
   };
 
   return (
     <>
-      {openSearch ? (
-        <div
-          onClick={handleSearch}
-          className="fixed left-0 top-0 z-[-1] h-full w-full bg-[#111111a1]"
-        ></div>
-      ) : (
-        ""
-      )}
       <button
         onClick={handleSearch}
-        className="flex cursor-pointer items-center justify-center border-none bg-none transition-opacity duration-200 hover:opacity-70"
+        className='flex cursor-pointer items-center justify-center border-none bg-none transition-opacity duration-200 hover:opacity-70'
+        aria-label={openSearch ? 'Close search' : 'Open search'}
       >
-        <img src={search} alt="" />
+        <img src={openSearch ? close : search} alt='' />
       </button>
-      <div
-        className={
-          "fixed left-0 top-0 z-[-1] h-[40svh] w-full bg-[#111]/95 backdrop-blur-xl transition-transform duration-500 max-md:h-[100svh] " +
-          (openSearch ? "" : "-translate-y-full")
-        }
-      >
-        <div className="relative top-16 mx-auto flex w-[580px] flex-col max-md:top-0 max-md:h-auto max-md:w-full max-md:px-8 max-md:py-16">
-          <form
-            onSubmit={handleFormSubmit}
-            className="flex items-center gap-3 max-md:flex-col max-md:items-stretch"
+      {createPortal(
+        <>
+          <div
+            onClick={handleSearch}
+            className={
+              'fixed left-0 top-0 z-10 h-full w-full bg-[#111111a1] transition-opacity duration-300 ' +
+              (openSearch ? 'opacity-100' : 'pointer-events-none opacity-0')
+            }
+          ></div>
+          <div
+            className={
+              'fixed left-0 top-0 z-10 w-full bg-[#111]/95 pb-10 backdrop-blur-xl transition-transform duration-500 max-md:h-[100svh] max-md:overflow-y-auto max-md:pb-0 ' +
+              (openSearch ? '' : '-translate-y-full')
+            }
           >
-            <div className="flex flex-1 items-center gap-2.5 rounded-full border border-white/15 bg-transparent px-5 py-3 transition-colors duration-200 focus-within:border-white/40">
-              <img src={search} alt="" className="shrink-0 opacity-70" />
-              <input
-                className="w-full min-w-0 border-none bg-transparent text-lg font-medium tracking-[0.009em] text-[#e8e8ed] outline-none placeholder:text-white/40 md:text-2xl"
-                type="text"
-                placeholder="Search istore.com"
-                value={searchValue}
-                onChange={handleInputChange}
-              />
-              {searchValue.length !== 0 ? (
-                <button
-                  type="button"
-                  className="flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center rounded-full border-none bg-white/15 transition-colors duration-200 hover:bg-white/25"
-                  onClick={clearInputValue}
-                >
-                  <img src={x} alt="" />
-                </button>
-              ) : null}
-            </div>
-            <Button type="submit" variant="filled" className="!px-7 !py-3 max-md:!w-full">
-              Search
-            </Button>
-          </form>
-          <p className="mt-6 font-normal text-[rgb(134,134,139)]">Quick Links</p>
-          {quickLinks.map((product) => {
-            return (
-              <Link
-                onClick={handleSearch}
-                key={product.title}
-                className="text-xs font-medium text-white no-underline"
-                to={`/shop/buy-${product.category}/${product.title
-                  .replace(/\s+/g, "-")
-                  .toLowerCase()}`}
+            <div className='mx-auto flex w-[580px] flex-col pt-16 max-md:h-auto max-md:w-full max-md:px-8 max-md:py-16'>
+              <form
+                onSubmit={handleFormSubmit}
+                className='flex items-center gap-3 max-md:flex-col max-md:items-stretch'
               >
-                <span className="relative right-[5px] flex h-[25px] items-center leading-10 hover:bg-[#1d1d1f]">
-                  <img src={arrow} alt="" className="w-[25px]" />
-                  {product.title}
-                </span>
-              </Link>
-            );
-          })}
-        </div>
-      </div>
+                <div className='flex flex-1 items-center gap-2.5 rounded-full border border-white/15 bg-transparent px-5 py-3 transition-colors duration-200 focus-within:border-white/40'>
+                  <img src={search} alt='' className='shrink-0 opacity-70' />
+                  <input
+                    className='w-full min-w-0 border-none bg-transparent text-lg font-medium tracking-[0.009em] text-[#e8e8ed] outline-none placeholder:text-white/40 md:text-2xl'
+                    type='text'
+                    placeholder='Search istore.com'
+                    value={searchValue}
+                    onChange={handleInputChange}
+                  />
+                  {searchValue.length !== 0 ? (
+                    <button
+                      type='button'
+                      className='flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center rounded-full border-none bg-white/15 transition-colors duration-200 hover:bg-white/25'
+                      onClick={clearInputValue}
+                      aria-label='Clear search'
+                    >
+                      <img src={x} alt='' />
+                    </button>
+                  ) : null}
+                </div>
+                <Button
+                  type='submit'
+                  variant='filled'
+                  className='!px-7 !py-3 max-md:!w-full'
+                >
+                  Search
+                </Button>
+              </form>
+              <p className='mt-6 font-normal text-[rgb(134,134,139)]'>
+                Quick Links
+              </p>
+              {quickLinks.map((product) => {
+                return (
+                  <Link
+                    onClick={handleSearch}
+                    key={product.title}
+                    className='text-xs font-medium text-white no-underline'
+                    to={`/shop/buy-${product.category}/${product.title
+                      .replace(/\s+/g, '-')
+                      .toLowerCase()}`}
+                  >
+                    <span className='relative right-[5px] flex h-[25px] items-center leading-10 hover:bg-[#1d1d1f]'>
+                      <img src={arrow} alt='' className='w-[25px]' />
+                      {product.title}
+                    </span>
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
+        </>,
+        document.body
+      )}
     </>
   );
 };

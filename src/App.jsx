@@ -1,5 +1,5 @@
 import { NavBar } from "./components/Navbar/NavBar";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Search } from "./pages/Search";
 import { ItemListContainer } from "./components/ItemListContainer/ItemListContainer";
 import { ItemDetailContainer } from "./components/ItemDetailContainer/ItemDetailContainer";
@@ -12,6 +12,14 @@ import { Cart } from "./components/Cart/Cart";
 import { Checkout } from "./components/Checkout/Checkout";
 import { Products } from "./components/Section/Products/Products";
 import { Link } from "react-router-dom";
+
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
+};
 
 export const App = () => {
   const [cart, setCart] = useState([]);
@@ -26,6 +34,7 @@ export const App = () => {
       <CartContext.Provider value={{ cart, setCart }}>
         <div className="App">
           <BrowserRouter>
+            <ScrollToTop />
             <NavBar />
             <Routes>
               {/* Ruta inicial */}

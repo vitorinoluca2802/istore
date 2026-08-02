@@ -23,16 +23,19 @@ export const NavBar = () => {
   };
   return (
     <header
-      className={`fixed left-0 top-0 z-10 h-[50px] w-full bg-[rgba(22,22,23,0.8)] leading-[50px] backdrop-blur-xl transition-[border-color,box-shadow] duration-300 ${
+      className={`fixed left-0 top-0 z-20 h-[50px] w-full bg-[rgba(22,22,23,0.8)] leading-[50px] backdrop-blur-xl transition-[border-color,box-shadow] duration-300 ${
         scrolled
           ? "border-b border-white/10 shadow-[0_1px_20px_rgba(0,0,0,0.25)]"
           : "border-b border-transparent"
       }`}
     >
-      <nav>
-        <ul className="flex items-center justify-center gap-[50px] max-md:justify-between max-md:px-8">
+      <nav className="flex h-[50px] items-center">
+        <ul className="flex w-full items-center justify-center gap-[50px] max-md:justify-between max-md:px-8">
           <li>
-            <Link to={`/`} className="transition-opacity duration-200 hover:opacity-70">
+            <Link
+              to={`/`}
+              className="flex items-center transition-opacity duration-200 hover:opacity-70"
+            >
               <img src={logo} alt="" />
             </Link>
           </li>
@@ -42,13 +45,7 @@ export const NavBar = () => {
               (openNavbar ? "" : "max-md:-translate-y-full")
             }
           >
-            <button
-              className="hidden cursor-pointer items-center justify-center border-none bg-none max-md:mt-1 max-md:ml-auto max-md:block max-md:h-[50px] max-md:px-8"
-              onClick={handleToggleNavbar}
-            >
-              <img src={close} alt="" />
-            </button>
-            <ul className="flex gap-[50px] max-md:flex-col max-md:gap-0 max-md:p-8">
+            <ul className="flex gap-[50px] max-md:flex-col max-md:gap-0 max-md:p-8 max-md:pt-20">
               {links.map((link) => {
                 return (
                   <li key={link.id}>
@@ -69,15 +66,16 @@ export const NavBar = () => {
               })}
             </ul>
           </li>
-          <li className="flex gap-[50px] max-md:gap-[30px]">
+          <li className="flex items-center gap-[50px] max-md:gap-[30px]">
             <SearchWidget />
             <CartWidget />
             <button
               id="menu"
-              className="hidden cursor-pointer items-center justify-center border-none bg-none max-md:mt-[4.5px] max-md:flex"
+              className="hidden cursor-pointer items-center justify-center border-none bg-none max-md:flex"
               onClick={handleToggleNavbar}
+              aria-label={openNavbar ? "Close menu" : "Open menu"}
             >
-              <img src={menu} alt="" />
+              <img src={openNavbar ? close : menu} alt="" />
             </button>
           </li>
         </ul>

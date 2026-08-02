@@ -67,16 +67,20 @@ export const Footer = () => {
 
         <div className="mt-12 flex flex-col items-center gap-3 border-t border-divider pt-6 text-center min-[600px]:flex-row min-[600px]:justify-between min-[600px]:text-left">
           <p className="text-xs text-text-secondary">
-            © 2023 iStore by{" "}
+            © {new Date().getFullYear()} iStore by{" "}
             <a
-              href="#"
+              href="https://github.com/vitorinoluca2802"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-text-secondary no-underline hover:underline"
             >
               Luca Vitorino
             </a>
             . See code{" "}
             <a
-              href="#"
+              href="https://github.com/vitorinoluca2802/istore"
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-text-secondary no-underline hover:underline"
             >
               here
@@ -84,12 +88,8 @@ export const Footer = () => {
             .
           </p>
           <div className="flex gap-4 text-xs text-text-secondary">
-            <a href="#" className="no-underline hover:underline">
-              Privacy Policy
-            </a>
-            <a href="#" className="no-underline hover:underline">
-              Terms of Use
-            </a>
+            <span className="cursor-default">Privacy Policy</span>
+            <span className="cursor-default">Terms of Use</span>
           </div>
         </div>
       </div>
