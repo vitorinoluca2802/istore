@@ -31,7 +31,7 @@ export const NavBar = () => {
     >
       <nav className="flex h-[50px] items-center">
         <ul className="flex w-full items-center justify-center gap-[50px] max-md:justify-between max-md:px-8">
-          <li>
+          <li className="relative z-[2]">
             <Link
               to={`/`}
               className="flex items-center transition-opacity duration-200 hover:opacity-70"
@@ -66,7 +66,7 @@ export const NavBar = () => {
               })}
             </ul>
           </li>
-          <li className="flex items-center gap-[50px] max-md:gap-[30px]">
+          <li className="relative z-[2] flex items-center gap-[50px] max-md:gap-[30px]">
             <SearchWidget />
             <CartWidget />
             <button
